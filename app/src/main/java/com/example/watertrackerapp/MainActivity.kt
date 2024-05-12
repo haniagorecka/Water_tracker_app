@@ -11,7 +11,7 @@ import com.example.watertrackerapp.ui.theme.WaterTrackerAppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+//        setContentView(R.layout.activity_register)
 //        setContent {
 //            WaterTrackerAppTheme {
 //                // A surface container using the 'background' color from the theme
