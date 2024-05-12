@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Water tracker app</string>
+    <string name="err_msg_enter_email">You must put your email info</string>
+    <string name="err_msg_enter_name">You must put your name info</string>
+    <string name="err_msg_enter_password">You must create a password</string>
+    <string name="err_msg_enter_reppassword">You must repeat a password</string>
+    <string name="err_msg_password_mismatch">Passwords have to match</string>
+    <string name="register_success_message">Successful registration!</string>
+</resources>
