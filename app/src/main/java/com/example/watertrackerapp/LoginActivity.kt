@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import com.google.firebase.auth.FirebaseAuth
 
-class Login :  BaseActivity(), View.OnClickListener
+class LoginActivity :  BaseActivity()
 {
 
     private var inputEmail: EditText? = null
@@ -30,18 +30,24 @@ class Login :  BaseActivity(), View.OnClickListener
 
     }
 
-    override fun onClick(view: View?) {
-        if(view !=null){
-            when (view.id){
-
-                R.id.goToRegistration->{
-                    // Przejście do ekranu rejestracji po kliknięciu linku
-                    val newActivity = Intent(this, Registration::class.java)
-                    startActivity(newActivity)
-                }
-            }
-        }
-    }
+//    override fun onClick(view: View?) {
+//        if(view !=null){
+//            println("OnClick")
+//            when (view.id){
+//
+//                R.id.goToRegistration->{
+//                    // Przejście do ekranu rejestracji po kliknięciu linku
+//                    val intent = Intent(this, Registration::class.java)
+//                    startActivity(intent)
+//                }
+//            }
+//        }
+//    }
+fun goToRegister(view: View) {
+    val newActivity = Intent(this, Registration::class.java)
+    startActivity(newActivity)
+    finish()
+}
 
     /**
      * Metoda walidująca wprowadzone dane logowania.

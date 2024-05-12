@@ -11,7 +11,6 @@ import com.example.watertrackerapp.ui.theme.WaterTrackerAppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_register)
 //        setContent {
 //            WaterTrackerAppTheme {
 //                // A surface container using the 'background' color from the theme
@@ -23,21 +22,22 @@ class MainActivity : ComponentActivity() {
 //                }
 //            }
 //        }
+        // }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+    @Composable
+    fun Greeting(name: String, modifier: Modifier = Modifier) {
+        Text(
+            text = "Hello $name!",
+            modifier = modifier
+        )
+    }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    WaterTrackerAppTheme {
-        Greeting("Hanna")
+    @Preview(showBackground = true)
+    @Composable
+    fun GreetingPreview() {
+        WaterTrackerAppTheme {
+            Greeting("Hanna")
+        }
     }
 }

@@ -1,6 +1,8 @@
 package com.example.watertrackerapp
 
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.os.Message
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 open class BaseActivity (): AppCompatActivity()

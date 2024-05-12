@@ -32,7 +32,7 @@ class Registration: BaseActivity ()
 
         registerButton?.setOnClickListener {
             register()
-        }
+       }
     }
 
     fun validateUserInfo(): Boolean
@@ -81,6 +81,8 @@ class Registration: BaseActivity ()
                         FirebaseClass().registerToFirebaseStore(this@Registration, user)
 
                         FirebaseAuth.getInstance().signOut()
+                        val newActivity = Intent(this, LoginActivity::class.java)
+                        startActivity(newActivity)
                         finish()
 
                     } else{
@@ -92,7 +94,7 @@ class Registration: BaseActivity ()
     }
 
     fun goToLogin(view: View) {
-        val newActivity = Intent(this, Login::class.java)
+        val newActivity = Intent(this, LoginActivity::class.java)
         startActivity(newActivity)
         finish()
     }
@@ -100,6 +102,7 @@ class Registration: BaseActivity ()
 
     fun  userRegistrationSuccess(){
         Toast.makeText(this@Registration, resources.getString(R.string.register_success_message), Toast.LENGTH_LONG).show()
+
     }
 
 }
