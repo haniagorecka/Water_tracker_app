@@ -1,5 +1,7 @@
 package com.example.watertrackerapp
 
+
+
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -8,33 +10,36 @@ import android.widget.Button
 import android.widget.EditText
 import com.google.firebase.auth.FirebaseAuth
 
-class LoginActivity :  BaseActivity()
+class UserDataAquire :  BaseActivity()
 {
 
-    private var inputEmail: EditText? = null
-    private var inputPassword: EditText? = null
-    private var loginButton: Button? = null
+    private var inputGender: EditText? = null
+    private var inputWeight: EditText? = null
+    private var inputHeight: EditText? = null
+    private var inputAge: EditText? = null
+    private var saveData: Button? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_userdata)
 
-        // Inicjalizacja pól wejściowych i przycisku logowania
-        inputEmail = findViewById(R.id.inputEmailText1)
-        inputPassword = findViewById(R.id.inputPasswordText1)
-        loginButton = findViewById(R.id.loginButton)
+        inputGender = findViewById(R.id.inputGenderText)
+        inputWeight = findViewById(R.id.inputWeightNumber)
+        inputHeight = findViewById(R.id.inputHeightNumber)
+        inputAge = findViewById(R.id.inputAgeNumber)
+        saveData = findViewById(R.id.saveButton)
 
         // Ustawienie nasłuchiwania kliknięć przycisku logowania
-        loginButton?.setOnClickListener{
+        saveData?.setOnClickListener{
             logInRegisteredUser()
         }
 
     }
 
-fun goToRegister(view: View) {
-    val newActivity = Intent(this, Registration::class.java)
-    startActivity(newActivity)
-    finish()
-}
+    fun goToMain(view: View) {
+        val newActivity = Intent(this, MainActivity::class.java)
+        startActivity(newActivity)
+        finish()
+    }
 
     /**
      * Metoda walidująca wprowadzone dane logowania.
@@ -43,12 +48,16 @@ fun goToRegister(view: View) {
     private fun validateLoginDetails(): Boolean {
 
         return when{
-            TextUtils.isEmpty(inputEmail?.text.toString().trim{ it <= ' '}) -> {
+            TextUtils.isEmpty(inputWeight?.text.toString().trim{ it <= ' '}) -> {
                 showErrorSnackBar(resources.getString(R.string.err_msg_enter_email), true)
                 false
             }
 
-            TextUtils.isEmpty(inputPassword?.text.toString().trim{ it <= ' '}) -> {
+            TextUtils.isEmpty(inputAge?.text.toString().trim{ it <= ' '}) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_enter_password),true)
+                false
+            }
+            TextUtils.isEmpty(inputHeight?.text.toString().trim{ it <= ' '}) -> {
                 showErrorSnackBar(resources.getString(R.string.err_msg_enter_password),true)
                 false
             }
@@ -62,34 +71,35 @@ fun goToRegister(view: View) {
 
     }
 
-    private fun logInRegisteredUser(){
+    private fun logInRegisteredUser() {
 
 
-        if(validateLoginDetails()){
-            val email = inputEmail?.text.toString().trim(){ it<= ' '}
-            val password = inputPassword?.text.toString().trim(){ it<= ' '}
+       // if (validateLoginDetails()) {
+            //    val email = inputEmail?.text.toString().trim(){ it<= ' '}
+            //    val password = inputPassword?.text.toString().trim(){ it<= ' '}
 
-            // Logowanie za pomocą FirebaseAuth
+            /*  // Logowanie za pomocą FirebaseAuth
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener{task ->
                     if(task.isSuccessful){
                         showErrorSnackBar("Login successful", false)
-                        goToDataActivity()
+                        goToMainActivity()
                         finish()
 
                     } else{
                         showErrorSnackBar(task.exception!!.message.toString(),true)
                     }
                 }
-        }
+        } */
+       // }
     }
 
-    open fun goToDataActivity() {
+  fun goToMainActivity() {
 
         val user = FirebaseAuth.getInstance().currentUser;
         val uid = user?.email.toString()
 
-        val intent = Intent(this, UserDataAquire::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("uID",uid)
         startActivity(intent)
     }
