@@ -43,7 +43,7 @@ class UserDataAquire :  BaseActivity() {
      * Metoda walidująca wprowadzone dane logowania.
      * @return True, jeśli dane są poprawne, w przeciwnym razie False.
      */
-    private fun validateLoginDetails(): Boolean {
+    private fun validateInfo(): Boolean {
 
         return when{
             TextUtils.isEmpty(inputWeight?.text.toString().trim{ it <= ' '}) -> {
@@ -70,15 +70,16 @@ class UserDataAquire :  BaseActivity() {
 
     private fun readUserInfo() {
 
-       val userWeight = inputWeight?.text.toString().toDouble()
-       val userAge = inputAge?.text.toString().toInt()
-       val userHeight = inputHeight?.text.toString().toDouble()
-     //  val userGender = inputGender?. .toString()
-       val user = FirebaseAuth.getInstance().currentUser;
-       val uid = user?.email.toString()
-       print("$uid data: weight $userWeight, age $userAge, height $userHeight, weight $userWeight")
-       goToMainActivity()
-
+        if (validateInfo()) {
+            val userWeight = inputWeight?.text.toString().toDouble()
+            val userAge = inputAge?.text.toString().toInt()
+            val userHeight = inputHeight?.text.toString().toDouble()
+            val userGender = inputGender?.selectedItem.toString()
+            val user = FirebaseAuth.getInstance().currentUser;
+            val uid = user?.email.toString()
+            print("$uid data: weight $userWeight, age $userAge, height $userHeight, weight $userWeight")
+            goToMainActivity()
+        }
     }
 
   fun goToMainActivity() {

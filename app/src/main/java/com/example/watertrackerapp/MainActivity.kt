@@ -22,11 +22,15 @@ import java.util.*
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val userID = intent.getStringExtra("userID") ?: "User"
+        val uID = intent
+        val userID = uID.getStringExtra("uID")
+        //val userID = intent.getStringExtra("userID") ?: "User"
         setContent {
             WaterTrackerAppTheme {
                 Surface {
-                    WaterIntakeScreen(userID)
+                    if (userID != null) {
+                        WaterIntakeScreen(userID)
+                    }
                 }
             }
         }
