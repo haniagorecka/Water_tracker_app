@@ -95,7 +95,9 @@
         android:layout_marginBottom="36dp"
         android:background="#008F8F8F"
         android:entries='@array/array_name'
+        android:focusable="auto"
         android:hapticFeedbackEnabled="false"
+        android:spinnerMode="dropdown"
         app:layout_constraintBottom_toTopOf="@+id/saveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

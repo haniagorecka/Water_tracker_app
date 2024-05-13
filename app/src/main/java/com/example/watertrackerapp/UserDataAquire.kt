@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.ComponentActivity
@@ -22,12 +23,17 @@ class UserDataAquire :  BaseActivity() {
         setContentView(R.layout.activity_userdata)
 
         inputGender = findViewById(R.id.inputGenderText)
+        //Ustawienia spinnera jako dropdown listy
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, resources.getStringArray(R.array.array_name))
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        inputGender?.adapter=adapter
+
         inputWeight = findViewById(R.id.inputWeightNumber)
         inputHeight = findViewById(R.id.inputHeightNumber)
         inputAge = findViewById(R.id.inputAgeNumber)
         saveData = findViewById(R.id.saveButton)
 
-        // Ustawienie nasłuchiwania kliknięć przycisku logowania
+
         saveData?.setOnClickListener{
             readUserInfo()
         }
