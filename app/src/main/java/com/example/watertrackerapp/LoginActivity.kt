@@ -36,10 +36,6 @@ fun goToRegister(view: View) {
     finish()
 }
 
-    /**
-     * Metoda walidująca wprowadzone dane logowania.
-     * @return True, jeśli dane są poprawne, w przeciwnym razie False.
-     */
     private fun validateLoginDetails(): Boolean {
 
         return when{
@@ -74,21 +70,22 @@ fun goToRegister(view: View) {
                 .addOnCompleteListener{task ->
                     if(task.isSuccessful){
                         showErrorSnackBar("Login successful", false)
-                        goToDataActivity()
+                       // goToDataActivity()
+                        val newActivity = Intent(this, UserDataAquire::class.java)
+                        startActivity(newActivity)
                         finish()
 
                     } else{
-                        showErrorSnackBar(task.exception!!.message.toString(),true)
+                        showErrorSnackBar(resources.getString(R.string.err_msg_wrong_login),true)
                     }
                 }
         }
     }
 
-    open fun goToDataActivity() {
+    fun goToDataActivity() {
 
         val user = FirebaseAuth.getInstance().currentUser;
         val uid = user?.email.toString()
-
         val intent = Intent(this, UserDataAquire::class.java)
         intent.putExtra("uID",uid)
         startActivity(intent)

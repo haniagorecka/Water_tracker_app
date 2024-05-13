@@ -1,18 +1,16 @@
 package com.example.watertrackerapp
 
-
-
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.activity.ComponentActivity
 import com.google.firebase.auth.FirebaseAuth
 
-class UserDataAquire :  BaseActivity()
-{
 
+class UserDataAquire :  BaseActivity() {
     private var inputGender: EditText? = null
     private var inputWeight: EditText? = null
     private var inputHeight: EditText? = null
@@ -30,9 +28,8 @@ class UserDataAquire :  BaseActivity()
 
         // Ustawienie nasłuchiwania kliknięć przycisku logowania
         saveData?.setOnClickListener{
-            logInRegisteredUser()
+            readUserInfo()
         }
-
     }
 
     fun goToMain(view: View) {
@@ -61,9 +58,8 @@ class UserDataAquire :  BaseActivity()
                 showErrorSnackBar(resources.getString(R.string.err_msg_enter_password),true)
                 false
             }
-
             else -> {
-                showErrorSnackBar("Valid login info",false)
+                showErrorSnackBar("All data aquired",false)
                 true
             }
         }
@@ -71,31 +67,20 @@ class UserDataAquire :  BaseActivity()
 
     }
 
-    private fun logInRegisteredUser() {
+    private fun readUserInfo() {
 
+       val userWeight = inputWeight?.text.toString().toDouble()
+       val userAge = inputAge?.text.toString().toInt()
+       val userHeight = inputHeight?.text.toString().toDouble()
+       val userGender = inputGender?.text.toString()
+       val user = FirebaseAuth.getInstance().currentUser;
+       val uid = user?.email.toString()
+       print("$uid data: weight $userWeight, age $userAge, height $userHeight, weight $userWeight")
+       goToMainActivity()
 
-       // if (validateLoginDetails()) {
-            //    val email = inputEmail?.text.toString().trim(){ it<= ' '}
-            //    val password = inputPassword?.text.toString().trim(){ it<= ' '}
-
-            /*  // Logowanie za pomocą FirebaseAuth
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password)
-                .addOnCompleteListener{task ->
-                    if(task.isSuccessful){
-                        showErrorSnackBar("Login successful", false)
-                        goToMainActivity()
-                        finish()
-
-                    } else{
-                        showErrorSnackBar(task.exception!!.message.toString(),true)
-                    }
-                }
-        } */
-       // }
     }
 
   fun goToMainActivity() {
-
         val user = FirebaseAuth.getInstance().currentUser;
         val uid = user?.email.toString()
 
