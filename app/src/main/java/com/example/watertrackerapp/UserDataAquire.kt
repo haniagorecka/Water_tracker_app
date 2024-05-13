@@ -7,11 +7,12 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.activity.ComponentActivity
+import androidx.appcompat.widget.AppCompatSpinner
 import com.google.firebase.auth.FirebaseAuth
 
 
 class UserDataAquire :  BaseActivity() {
-    private var inputGender: EditText? = null
+    private var inputGender: AppCompatSpinner? = null
     private var inputWeight: EditText? = null
     private var inputHeight: EditText? = null
     private var inputAge: EditText? = null
@@ -72,7 +73,7 @@ class UserDataAquire :  BaseActivity() {
        val userWeight = inputWeight?.text.toString().toDouble()
        val userAge = inputAge?.text.toString().toInt()
        val userHeight = inputHeight?.text.toString().toDouble()
-       val userGender = inputGender?.text.toString()
+     //  val userGender = inputGender?. .toString()
        val user = FirebaseAuth.getInstance().currentUser;
        val uid = user?.email.toString()
        print("$uid data: weight $userWeight, age $userAge, height $userHeight, weight $userWeight")
