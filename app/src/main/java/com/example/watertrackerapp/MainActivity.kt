@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -24,12 +26,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val uID = intent
         val userID = uID.getStringExtra("uID")
+        val userAge = uID.getIntExtra("userAge", 0)
+        val userWeight = uID.getDoubleExtra("userWeight", 0.0)
+        val userHeight = uID.getDoubleExtra("userHeight", 0.0)
         //val userID = intent.getStringExtra("userID") ?: "User"
         setContent {
             WaterTrackerAppTheme {
                 Surface {
                     if (userID != null) {
-                        WaterIntakeScreen(userID)
+                        WaterIntakeScreen(userID, userAge, userWeight, userHeight)
                     }
                 }
             }
@@ -38,12 +43,15 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun WaterIntakeScreen(name: String) {
+fun WaterIntakeScreen(name: String, userAge: Int, userWeight: Double, userHeight: Double) {
     var waterIntake by remember { mutableStateOf("") }
     var totalWaterIntake by remember { mutableStateOf(0) }
 
-    Column(modifier = Modifier.padding(16.dp)) {
-        Greeting(name = name)
+    Column(modifier = Modifier
+        .padding(16.dp)
+        .fillMaxWidth()
+        .fillMaxHeight()) {
+        Greeting(name = "$name, ")
         OutlinedTextField(
             value = waterIntake,
             onValueChange = { waterIntake = it },
@@ -53,18 +61,22 @@ fun WaterIntakeScreen(name: String) {
             keyboardActions = KeyboardActions(onDone = {
                 totalWaterIntake += waterIntake.toIntOrNull() ?: 0
                 waterIntake = ""
-            })
+            }),
+            modifier = Modifier.fillMaxWidth() // Zastosowanie fillMaxWidth, aby pole tekstowe miało szerokość kolumny
         )
         Button(
             onClick = {
                 totalWaterIntake += waterIntake.toIntOrNull() ?: 0
                 waterIntake = ""
             },
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .fillMaxWidth() // Zastosowanie fillMaxWidth, aby przycisk miał szerokość kolumny
         ) {
             Text("Dodaj")
         }
         Text("Całkowite spożycie wody: $totalWaterIntake ml", modifier = Modifier.padding(top = 8.dp))
+        Recomendation(userWeight, modifier = Modifier.padding(top = 8.dp))
     }
 }
 
@@ -76,10 +88,19 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Preview(showBackground = true)
+
 @Composable
-fun DefaultPreview() {
-    WaterTrackerAppTheme {
-        WaterIntakeScreen("Hanna")
-    }
+fun Recomendation(weight: Double, modifier: Modifier = Modifier) {
+    Text(
+        text = "Rekomendowane spożycie wody: ${(weight * 35.0).toInt()} ml",
+        modifier = modifier
+    )
 }
+
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview() {
+//    WaterTrackerAppTheme {
+//        WaterIntakeScreen("Hanna", 25, 70.0, 170.0)
+//    }
+//}
