@@ -87,13 +87,15 @@ fun goToRegister(view: View) {
     fun goToDataActivity(email: String) {
         val database = Firebase.firestore
         val databaseOp = DatabaseOperations(database)
-        val user1 = databaseOp.getUser(email)
 
-        val user = FirebaseAuth.getInstance().currentUser;
-        val uid = user?.email.toString()
-        val intent = Intent(this, UserDataAquire::class.java)
-        intent.putExtra("uID",uid)
-        startActivity(intent)
+            val uid = email
+            val intent = Intent(this, UserDataAquire::class.java)
+            intent.putExtra("uID",uid)
+            startActivity(intent)
+
+
+        //val user = FirebaseAuth.getInstance().currentUser;
+
     }
 
 

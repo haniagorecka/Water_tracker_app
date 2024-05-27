@@ -7,10 +7,13 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
-import androidx.activity.ComponentActivity
 import androidx.appcompat.widget.AppCompatSpinner
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class UserDataAquire : BaseActivity() {
     private var inputGender: AppCompatSpinner? = null
@@ -40,8 +43,8 @@ class UserDataAquire : BaseActivity() {
     }
 
     fun goToMain(view: View) {
-        val newActivity = Intent(this, MainActivity::class.java)
-        startActivity(newActivity)
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
         finish()
     }
 
@@ -72,6 +75,9 @@ class UserDataAquire : BaseActivity() {
 
     private fun readUserInfo() {
         if (validateInfo()) {
+            val database = Firebase.firestore
+            val databaseOp = DatabaseOperations(database)
+
             val userWeight = inputWeight?.text.toString().toDouble()
             val userAge = inputAge?.text.toString().toInt()
             val userHeight = inputHeight?.text.toString().toDouble()
@@ -79,6 +85,46 @@ class UserDataAquire : BaseActivity() {
             val user = FirebaseAuth.getInstance().currentUser
             val displayName = user?.displayName ?: "Unknown User"
             print("$displayName data: weight $userWeight, age $userAge, height $userHeight, gender $userGender")
+
+            val uID = this.intent
+            val userID = uID.getStringExtra("uID")
+            var user2: User=User()
+            user2.weight=userWeight
+            if (userID != null) {
+                user2.email=userID
+            }
+            user2.age=userAge
+            user2.height=userHeight
+            user2.gender = when(userGender)
+            {
+                "female"-> genderChoice.FEMALE
+                "male" ->genderChoice.MALE
+                else -> genderChoice.NOCHOICE
+            }
+            GlobalScope.launch(Dispatchers.Main) {
+                val uID = this@UserDataAquire.intent
+                val userID = uID.getStringExtra("uID")
+                if(userID!=null)
+                {
+                    val user1 = databaseOp.getUser(userID)
+                    var user2: User=User()
+                    if (user1 != null) {
+                        user2.email=user1.email
+                        user2.name=user1.name
+                        user2.isRegistered=user1.isRegistered
+                    }
+
+
+
+
+                }
+
+
+            }
+            GlobalScope.launch(Dispatchers.Main)
+            {
+                databaseOp.editUser(user2.email, user2)
+            }
             goToMainActivity(userAge, userWeight, userHeight, displayName)
         }
     }
