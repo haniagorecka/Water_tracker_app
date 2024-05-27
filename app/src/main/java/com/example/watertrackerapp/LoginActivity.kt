@@ -72,9 +72,9 @@ fun goToRegister(view: View) {
                 .addOnCompleteListener{task ->
                     if(task.isSuccessful){
                         showErrorSnackBar("Login successful", false)
-                       // goToDataActivity()
-                        val newActivity = Intent(this, UserDataAquire::class.java)
-                        startActivity(newActivity)
+                        val intent = Intent(this, UserDataAquire::class.java)
+                        intent.putExtra("uID", email)
+                        startActivity(intent)
                         finish()
 
                     } else{

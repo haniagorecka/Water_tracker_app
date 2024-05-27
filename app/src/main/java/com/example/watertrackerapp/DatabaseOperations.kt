@@ -1,6 +1,9 @@
 package com.example.watertrackerapp
+import android.content.ContentValues.TAG
+import android.util.Log
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.tasks.await
 
 
@@ -19,8 +22,8 @@ class DatabaseOperations(private val database: FirebaseFirestore): FireBaseInter
         return snapshot.documents.firstOrNull()?.toObject(User::class.java)
     }
 
-    override suspend fun editUser(email: String, updatedUser: User) {
-        database.collection("Users").document(email).set(updatedUser).await()
+    override suspend fun editUser(mail: String, updatedUser: User) {
+        database.collection("Users").document(mail).set(updatedUser).await()
     }
 
     override suspend fun deleteUser(email: String) {

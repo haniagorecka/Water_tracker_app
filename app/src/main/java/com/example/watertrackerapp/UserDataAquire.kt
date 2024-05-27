@@ -11,9 +11,12 @@ import androidx.appcompat.widget.AppCompatSpinner
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+
+
 
 class UserDataAquire : BaseActivity() {
     private var inputGender: AppCompatSpinner? = null
@@ -73,6 +76,7 @@ class UserDataAquire : BaseActivity() {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private fun readUserInfo() {
         if (validateInfo()) {
             val database = Firebase.firestore
@@ -88,34 +92,28 @@ class UserDataAquire : BaseActivity() {
 
             val uID = this.intent
             val userID = uID.getStringExtra("uID")
-            var user2: User=User()
+            val user2 = User()
             user2.weight=userWeight
             if (userID != null) {
-                user2.email=userID
+               user2.email=userID
             }
             user2.age=userAge
             user2.height=userHeight
             user2.gender = when(userGender)
             {
-                "female"-> genderChoice.FEMALE
-                "male" ->genderChoice.MALE
+                "Female"-> genderChoice.FEMALE
+                "Male" ->genderChoice.MALE
                 else -> genderChoice.NOCHOICE
             }
             GlobalScope.launch(Dispatchers.Main) {
-                val uID = this@UserDataAquire.intent
-                val userID = uID.getStringExtra("uID")
                 if(userID!=null)
                 {
                     val user1 = databaseOp.getUser(userID)
-                    var user2: User=User()
                     if (user1 != null) {
                         user2.email=user1.email
                         user2.name=user1.name
                         user2.isRegistered=user1.isRegistered
                     }
-
-
-
 
                 }
 
