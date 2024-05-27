@@ -8,9 +8,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.Firebase
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class Registration: BaseActivity ()
 {
@@ -67,31 +72,49 @@ class Registration: BaseActivity ()
             val password: String = inputPassword?.text.toString().trim() {it <= ' '}
             val name: String = inputName?.text.toString().trim() {it <= ' '}
 
+            val database = Firebase.firestore
+            val databaseOp = DatabaseOperations(database)
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(login,password).addOnCompleteListener(
-                OnCompleteListener <AuthResult>{ task ->
-                    if(task.isSuccessful){
+                OnCompleteListener <AuthResult> { task ->
+                    if (task.isSuccessful) {
                         val firebaseUser: FirebaseUser = task.result!!.user!!
-                        showErrorSnackBar("Successfull registration! Your id is: ${firebaseUser.uid}",false)
-
-                        val user = User("Testing ID",
-                            name,
-                            true,
-                            login,
+                        showErrorSnackBar(
+                            "Successfull registration! Your id is: ${firebaseUser.uid}",
+                            false
                         )
-                        FirebaseClass().registerToFirebaseStore(this@Registration, user)
 
-                        FirebaseAuth.getInstance().signOut()
-                        val newActivity = Intent(this, LoginActivity::class.java)
-                        startActivity(newActivity)
-                        finish()
+                        if (login.isNotEmpty() && name.isNotEmpty() && password.isNotEmpty()) {
 
-                    } else{
-                        showErrorSnackBar(task.exception!!.message.toString(),true)
+                            val newUser = User(name, login, true)
+                            GlobalScope.launch(Dispatchers.Main) {
+
+                                databaseOp.addUser(login, newUser)
+                            }
+
+                            val user = User(
+                                name,
+                                login,
+                                true
+                            )
+
+                            FirebaseClass().registerToFirebaseStore(this@Registration, user)
+
+                            FirebaseAuth.getInstance().signOut()
+                            val newActivity = Intent(this, LoginActivity::class.java)
+                            startActivity(newActivity)
+                            finish()
+
+                        } else {
+                            showErrorSnackBar(task.exception!!.message.toString(), true)
+                        }
                     }
                 }
-            )
+                    )
+
+
         }
     }
+
 
     fun goToLogin(view: View) {
         val newActivity = Intent(this, LoginActivity::class.java)

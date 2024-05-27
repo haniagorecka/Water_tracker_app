@@ -6,7 +6,9 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.firestore
 
 class LoginActivity :  BaseActivity()
 {
@@ -82,7 +84,10 @@ fun goToRegister(view: View) {
         }
     }
 
-    fun goToDataActivity() {
+    fun goToDataActivity(email: String) {
+        val database = Firebase.firestore
+        val databaseOp = DatabaseOperations(database)
+        val user1 = databaseOp.getUser(email)
 
         val user = FirebaseAuth.getInstance().currentUser;
         val uid = user?.email.toString()
