@@ -39,7 +39,6 @@ fun goToRegister(view: View) {
 }
 
     private fun validateLoginDetails(): Boolean {
-
         return when{
             TextUtils.isEmpty(inputEmail?.text.toString().trim{ it <= ' '}) -> {
                 showErrorSnackBar(resources.getString(R.string.err_msg_enter_email), true)
@@ -61,8 +60,6 @@ fun goToRegister(view: View) {
     }
 
     private fun logInRegisteredUser(){
-
-
         if(validateLoginDetails()){
             val email = inputEmail?.text.toString().trim(){ it<= ' '}
             val password = inputPassword?.text.toString().trim(){ it<= ' '}
