@@ -22,6 +22,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.example.watertrackerapp.ui.theme.WaterTrackerAppTheme
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.rememberCoroutineScope
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +55,9 @@ class MainActivity : ComponentActivity() {
 fun WaterIntakeScreen(name: String, userAge: Int, userWeight: Double, userHeight: Double) {
     var waterIntake by remember { mutableStateOf("") }
     var totalWaterIntake by remember { mutableStateOf(0) }
+    val database = Firebase.firestore
+    val databaseOp = DatabaseOperations(database)
+    val coroutineScope = rememberCoroutineScope()
     Column(modifier = Modifier
         .padding(16.dp)
         .fillMaxWidth()
@@ -69,6 +79,9 @@ fun WaterIntakeScreen(name: String, userAge: Int, userWeight: Double, userHeight
             onClick = {
                 totalWaterIntake += waterIntake.toIntOrNull() ?: 0
                 waterIntake = ""
+                coroutineScope.launch {
+                    databaseOp.addWaterIntakeForUser(name, totalWaterIntake.toDouble())
+                }
             },
             modifier = Modifier
                 .padding(top = 8.dp)

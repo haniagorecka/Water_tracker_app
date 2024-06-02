@@ -37,34 +37,34 @@ class Registration: BaseActivity ()
 
         registerButton?.setOnClickListener {
             register()
-       }
+        }
     }
 
     fun validateUserInfo(): Boolean
     {
         return when{
-        TextUtils.isEmpty(inputEmail?.text.toString().trim{ it <= ' '}) -> {
-        showErrorSnackBar(resources.getString(R.string.err_msg_enter_email),true)
-        false
-    }
-        TextUtils.isEmpty(inputName?.text.toString().trim{ it <= ' '}) -> {
-        showErrorSnackBar(resources.getString(R.string.err_msg_enter_name),true)
-        false
-    }
-        TextUtils.isEmpty(inputPassword?.text.toString().trim{ it <= ' '}) -> {
-        showErrorSnackBar(resources.getString(R.string.err_msg_enter_password),true)
-        false
-    }
-        TextUtils.isEmpty(inputRepPass?.text.toString().trim{ it <= ' '}) -> {
-        showErrorSnackBar(resources.getString(R.string.err_msg_enter_reppassword),true)
-        false
-    }
-        inputPassword?.text.toString().trim {it <= ' '} != inputRepPass?.text.toString().trim{it <= ' '} -> {
-        showErrorSnackBar(resources.getString(R.string.err_msg_password_mismatch),true)
-        false
-    }
-        else -> true
-    }
+            TextUtils.isEmpty(inputEmail?.text.toString().trim{ it <= ' '}) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_enter_email),true)
+                false
+            }
+            TextUtils.isEmpty(inputName?.text.toString().trim{ it <= ' '}) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_enter_name),true)
+                false
+            }
+            TextUtils.isEmpty(inputPassword?.text.toString().trim{ it <= ' '}) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_enter_password),true)
+                false
+            }
+            TextUtils.isEmpty(inputRepPass?.text.toString().trim{ it <= ' '}) -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_enter_reppassword),true)
+                false
+            }
+            inputPassword?.text.toString().trim {it <= ' '} != inputRepPass?.text.toString().trim{it <= ' '} -> {
+                showErrorSnackBar(resources.getString(R.string.err_msg_password_mismatch),true)
+                false
+            }
+            else -> true
+        }
     }
     private fun register(){
         if (validateUserInfo()){
@@ -109,7 +109,7 @@ class Registration: BaseActivity ()
                         }
                     }
                 }
-                    )
+            )
 
 
         }
