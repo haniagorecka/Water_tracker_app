@@ -18,4 +18,19 @@
         <item>"Female"</item>
         <item>"Non binary"</item>
     </string-array>
+
+    <string-array name="array_drink">
+        <item>"Water"</item>
+        <item>"Coffee"</item>
+        <item>"Tea"</item>
+        <item>"Milk"</item>
+        <item>"Apple juice"</item>
+        <item>"Orange juice"</item>
+        <item>"Beer"</item>
+        <item>"Wine (white)"</item>
+        <item>"Wine (red)"</item>
+        <item>"Soda"</item>
+        <item>"Hot chocolate"</item>
+    </string-array>
+
 </resources>
