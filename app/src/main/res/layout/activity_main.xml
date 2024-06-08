@@ -9,20 +9,20 @@
 
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/SmallCup"
         android:layout_width="104dp"
         android:layout_height="77dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintHorizontal_bias="0.826"
+        app:layout_constraintEnd_toStartOf="@+id/MediumCup"
+        app:layout_constraintHorizontal_bias="0.769"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.641"
+        app:layout_constraintVertical_bias="0.628"
         app:srcCompat="@drawable/small_cup"
         app:tint="#1c5d8e" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/MediumCup"
         android:layout_width="67dp"
         android:layout_height="74dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,16 +34,16 @@
         app:tint="#1c5d8e" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/BigCup"
         android:layout_width="78dp"
-        android:layout_height="137dp"
+        android:layout_height="80dp"
         android:layout_marginStart="36dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.047"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/MediumCup"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.635"
+        app:layout_constraintVertical_bias="0.621"
         app:srcCompat="@drawable/large_cup"
         app:tint="#1c5d8e" />
 
@@ -55,7 +55,7 @@
         android:text="150 ml"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/SmallCup"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -65,24 +65,24 @@
         android:text="250 ml"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/textView9"
-        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintHorizontal_bias="0.464"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.046" />
+        app:layout_constraintTop_toBottomOf="@+id/MediumCup"
+        app:layout_constraintVertical_bias="0.013" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="72dp"
+        android:layout_marginEnd="64dp"
         android:text="400 ml"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/BigCup"
         app:layout_constraintVertical_bias="0.0" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/DrinkOptions"
         android:layout_width="326dp"
         android:layout_height="61dp"
         android:entries="@array/array_drink"
@@ -98,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Wybierz napój z listy"
-        app:layout_constraintBottom_toTopOf="@+id/spinner"
+        app:layout_constraintBottom_toTopOf="@+id/DrinkOptions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.074"
         app:layout_constraintStart_toStartOf="parent"
@@ -110,7 +110,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Dodaj wypitą wodę"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintBottom_toTopOf="@+id/MediumCup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,7 +130,7 @@
         app:layout_constraintVertical_bias="0.849" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/DrinkAmount"
         android:layout_width="327dp"
         android:layout_height="56dp"
         android:ems="10"
@@ -176,13 +176,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView15"
-        app:layout_constraintVertical_bias="0.126" />
+        app:layout_constraintVertical_bias="0.15" />
 
     <TextView
         android:id="@+id/textView15"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="36dp"
         android:text="Zalecane spożycie wody:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.547"
@@ -190,7 +190,7 @@
         app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/AddButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -199,36 +199,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNumber" />
+        app:layout_constraintTop_toBottomOf="@+id/DrinkAmount" />
 
-    <EditText
-        android:id="@+id/editTextNumberSigned"
-        android:layout_width="255dp"
+    <TextView
+        android:id="@+id/Recommended"
+        android:layout_width="257dp"
         android:layout_height="49dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="32dp"
-        android:ems="10"
-        android:hint="x ml"
-        android:inputType="numberSigned"
-        app:layout_constraintBottom_toBottomOf="@+id/textView14"
+        android:layout_marginTop="15dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/textView14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/textView15"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <EditText
-        android:id="@+id/editTextNumberSigned2"
-        android:layout_width="255dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="17dp"
-        android:ems="10"
-        android:hint="x ml"
-        android:inputType="numberSigned"
+    <TextView
+        android:id="@+id/Consumption"
+        android:layout_width="248dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="27dp"
+        android:layout_marginBottom="43dp"
+        android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.461" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
