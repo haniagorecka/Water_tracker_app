@@ -30,6 +30,7 @@ class RecycleViewActivity: BaseActivity() {
                 val snapshot = database.collection("Users")
                     .document(userID).collection("WaterIntake")
                     .get().await()
+
                val snapshotList = snapshot.documents.forEach()
                {
                   val date =  it.toObject(Date::class.java)
@@ -42,6 +43,12 @@ class RecycleViewActivity: BaseActivity() {
 
             }
         }
+//        val DateList = mutableListOf<String>("1", "2", "3", "1", "2", "3", "1", "2", "3")
+//        val AmountList = mutableListOf<String>("A", "B", "C", "D", "A", "B", "C", "D", "E")
+//       for(i in 0..DateList.size-1){
+//            val dateItem: RecycleViewData = RecycleViewData(DateList[i], AmountList[i])
+//            listOfDates.add(dateItem)
+//        }
         recyclerView = findViewById(R.id.WaterRecycleVIew)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)

@@ -24,9 +24,9 @@ class RecycleViewAdapter (private val List: MutableList<RecycleViewData>): Recyc
     override fun getItemCount() = List.size
 
 
-    class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView)
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
-       val dateView : TextView = ItemView.findViewById(R.id.DateRecycle)
-       val amountView: TextView = ItemView.findViewById(R.id.AmountRecycle)
+       val dateView : TextView = itemView.findViewById(R.id.DateRecycle)
+       val amountView: TextView = itemView.findViewById(R.id.AmountRecycle)
     }
 }

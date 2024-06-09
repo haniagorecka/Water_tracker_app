@@ -9,20 +9,14 @@
         android:id="@+id/cardView"
         android:layout_width="385dp"
         android:layout_height="84dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
         android:background="#18507A"
         android:backgroundTint="#18507a "
+        app:cardCornerRadius="5dp"
+        app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
-        app:cardElevation="8dp"
-        app:cardCornerRadius="5dp">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,33 +27,40 @@
                 android:id="@+id/AmountRecycle"
                 android:layout_width="180dp"
                 android:layout_height="60dp"
+                android:background="#8E24AA"
                 android:fontFamily="sans-serif-medium"
                 android:text="Woda"
-                android:textSize="20sp"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
                 android:typeface="sans"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.969"
+                app:layout_constraintHorizontal_bias="0.922"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.38" />
+                app:layout_constraintVertical_bias="0.269" />
 
             <TextView
                 android:id="@+id/DateRecycle"
                 android:layout_width="165dp"
                 android:layout_height="57dp"
+                android:background="#E53935"
                 android:fontFamily="sans-serif-medium"
                 android:text="Data"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="20sp"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
                 android:typeface="sans"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/AmountRecycle"
-                app:layout_constraintHorizontal_bias="0.457"
+                app:layout_constraintHorizontal_bias="0.615"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.344" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
