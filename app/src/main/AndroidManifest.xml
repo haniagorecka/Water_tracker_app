@@ -45,6 +45,14 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".RecycleViewActivity"
+            android:exported="false">
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".LoginActivity"
 
             android:exported="true">

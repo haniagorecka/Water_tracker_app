@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.628"
         app:srcCompat="@drawable/small_cup"
-        app:tint="#1c5d8e" />
+        app:tint="#103551" />
 
     <ImageView
         android:id="@+id/MediumCup"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.625"
         app:srcCompat="@drawable/medium_cup"
-        app:tint="#1c5d8e" />
+        app:tint="#103551" />
 
     <ImageView
         android:id="@+id/BigCup"
@@ -45,7 +45,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.621"
         app:srcCompat="@drawable/large_cup"
-        app:tint="#1c5d8e" />
+        app:tint="#103551" />
 
     <TextView
         android:id="@+id/textView7"
@@ -146,16 +146,15 @@
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="382dp"
-        android:layout_height="24dp"
-        android:progress="50"
+        android:layout_width="316dp"
+        android:layout_height="23dp"
         android:progressDrawable="@drawable/horizontal_progress_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintHorizontal_bias="0.634"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.112" />
+        app:layout_constraintVertical_bias="0.144" />
 
     <TextView
         android:id="@+id/textView13"
@@ -164,8 +163,10 @@
         android:text="Wypito wody:"
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView14"
@@ -226,6 +227,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14"
         app:layout_constraintVertical_bias="0.461" />
+
+    <Button
+        android:id="@+id/buttonStat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Idż do statystyk"
+        app:layout_constraintBottom_toTopOf="@+id/textView13"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
