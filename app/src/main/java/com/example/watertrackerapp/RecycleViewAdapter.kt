@@ -17,7 +17,7 @@ class RecycleViewAdapter (private val List: MutableList<RecycleViewData>): Recyc
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = List[position]
         holder.dateView.text = currentItem.date
-        holder.amountView.text = currentItem.amount
+        holder.amountView.text = currentItem.amount + " ml"
 
     }
 

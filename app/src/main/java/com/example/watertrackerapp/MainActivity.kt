@@ -24,6 +24,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.roundToInt
 
 class MainActivity : BaseActivity() {
     private lateinit var DrinkOption: Spinner
@@ -70,8 +71,7 @@ class MainActivity : BaseActivity() {
         val userHeight = uID.getDoubleExtra("userHeight", 0.0)
         Recommended.text = Recomendation(userWeight).toString()
         Progress.max = Recomendation(userWeight).toInt()
-        var totalWaterIntake: Int = 0
-        ObjectAnimator.ofInt(Progress, "progress", totalWaterIntake).setDuration(2000).start()
+        var totalWaterIntake:Int = 0
         lifecycleScope.launch {
             if (userID != null) //potencjalnie "try catch"
             {
@@ -91,9 +91,13 @@ class MainActivity : BaseActivity() {
                 }
             }
         }
+        ObjectAnimator.ofInt(Progress, "progress", totalWaterIntake).setDuration(2000).start()
         AddButton.setOnClickListener()
         {
-           val waterIntake = DrinkAmount.text.toString().toInt()
+           var waterIntake = DrinkAmount.text.toString().toInt()
+           val drinkOption = DrinkOption.selectedItem.toString()
+           val drink = getWaterContent(drinkOption)
+            waterIntake= (waterIntake*drink).roundToInt()
             lifecycleScope.launch {
                 if (userID != null)
                 {
@@ -119,6 +123,79 @@ class MainActivity : BaseActivity() {
                 val user = getUserInfoFromDB()
                 if (user != null && user.data_set) {
                     goToStatsActivity(user)
+                }
+            }
+        }
+
+        SmallCup.setOnClickListener()
+        {
+            var waterIntake = 150
+            val drinkOption = DrinkOption.selectedItem.toString()
+            val drink = getWaterContent(drinkOption)
+            waterIntake = (waterIntake*drink).roundToInt()
+            lifecycleScope.launch {
+                if (userID != null)
+                {
+                    var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
+                    totalWaterIntake += waterIntake
+                    Consumption.text = totalWaterIntake.toString()
+                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake)
+                    if(totalWaterIntake<=Recomendation(userWeight))
+                    {
+                        Progress.progress = totalWaterIntake.toInt()
+                    }
+                    else
+                    {
+                        Progress.progress = Progress.max
+                    }
+                }
+            }
+        }
+        MediumCup.setOnClickListener()
+        {
+            var waterIntake = 250
+            val drinkOption = DrinkOption.selectedItem.toString()
+            val drink = getWaterContent(drinkOption)
+            waterIntake= (waterIntake*drink).roundToInt()
+            lifecycleScope.launch {
+                if (userID != null)
+                {
+                    var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
+                    totalWaterIntake += waterIntake
+                    Consumption.text = totalWaterIntake.toString()
+                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake)
+                    if(totalWaterIntake<=Recomendation(userWeight))
+                    {
+                        Progress.progress = totalWaterIntake.toInt()
+                    }
+                    else
+                    {
+                        Progress.progress = Progress.max
+                    }
+                }
+            }
+        }
+        BigCup.setOnClickListener()
+        {
+            var waterIntake = 400
+            val drinkOption = DrinkOption.selectedItem.toString()
+            val drink = getWaterContent(drinkOption)
+            waterIntake= (waterIntake*drink).roundToInt()
+            lifecycleScope.launch {
+                if (userID != null)
+                {
+                    var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
+                    totalWaterIntake += waterIntake
+                    Consumption.text = totalWaterIntake.toString()
+                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake)
+                    if(totalWaterIntake<=Recomendation(userWeight))
+                    {
+                        Progress.progress = totalWaterIntake.toInt()
+                    }
+                    else
+                    {
+                        Progress.progress = Progress.max
+                    }
                 }
             }
         }
@@ -253,4 +330,25 @@ private fun goToStatsActivity(user: User) {
     startActivity(intent)
     finish()
 }
+
+fun getWaterContent (drink: String): Double {
+    return when (drink) {
+        "Water" -> Drink_enum.WATER.content
+        "Coffee" -> Drink_enum.COFFEE.content
+        "Tea" -> Drink_enum.TEA.content
+        "Milk" -> Drink_enum.MILK.content
+        "Apple juice" -> Drink_enum.APPLE_JUICE.content
+        "Orange juice" -> Drink_enum.ORANGE_JUICE.content
+        "Beer" -> Drink_enum.BEER.content
+        "Wine (white)" -> Drink_enum.WINE_W.content
+        "Wine (red)" -> Drink_enum.WINE_R.content
+        "Soda" -> Drink_enum.SODA.content
+        "Hot chocolate" -> Drink_enum.HOT_CH.content
+        else -> Drink_enum.IDK.content
     }
+
+}
+
+}
+
+
