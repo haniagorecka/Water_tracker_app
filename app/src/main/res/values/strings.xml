@@ -11,12 +11,13 @@
     <string name="err_msg_enter_age">You must provide your age fucking kiddo</string>
     <string name="err_msg_enter_height">You must provide your height you freackin antman</string>
     <string name="err_msg_data_acquired">All data aquired</string>
+    <string name="err_msg_no_data">You have to fill in your data first</string>
 
     <string-array name="array_name">
-        <item>"Unicorn"</item>
+
         <item>"Male"</item>
         <item>"Female"</item>
-        <item>"Non binary"</item>
+
     </string-array>
 
     <string-array name="array_drink">

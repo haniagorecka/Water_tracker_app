@@ -37,6 +37,7 @@ class MainActivity : BaseActivity() {
     private lateinit var Consumption: TextView
     private lateinit var Progress: ProgressBar
     private lateinit var GoToStats: Button
+    private lateinit var GoToData: Button
 
 
 
@@ -53,6 +54,7 @@ class MainActivity : BaseActivity() {
         Consumption = findViewById(R.id.Consumption)
         Progress = findViewById(R.id.progressBar)
         GoToStats= findViewById(R.id.buttonStat)
+        GoToData= findViewById(R.id.buttonData)
 
         val database = Firebase.firestore
         val databaseOp = DatabaseOperations(database)
@@ -94,7 +96,11 @@ class MainActivity : BaseActivity() {
         ObjectAnimator.ofInt(Progress, "progress", totalWaterIntake).setDuration(2000).start()
         AddButton.setOnClickListener()
         {
-           var waterIntake = DrinkAmount.text.toString().toInt()
+           var waterIntake = if(DrinkAmount.text.isNotBlank()) {
+                DrinkAmount.text.toString().toInt()
+            } else {
+                0
+            }
            val drinkOption = DrinkOption.selectedItem.toString()
            val drink = getWaterContent(drinkOption)
             waterIntake= (waterIntake*drink).roundToInt()
@@ -123,6 +129,15 @@ class MainActivity : BaseActivity() {
                 val user = getUserInfoFromDB()
                 if (user != null && user.data_set) {
                     goToStatsActivity(user)
+                }
+            }
+        }
+        GoToData.setOnClickListener()
+        {
+            lifecycleScope.launch {
+                val user = getUserInfoFromDB()
+                if (user != null) {
+                    goToDataActivity(user)
                 }
             }
         }
@@ -330,6 +345,17 @@ private fun goToStatsActivity(user: User) {
     startActivity(intent)
     finish()
 }
+
+    private fun goToDataActivity(user: User) {
+        val intent = Intent(this, UserDataAquire::class.java).apply {
+            putExtra("uID", user.email)
+            putExtra("userAge", user.age)
+            putExtra("userWeight", user.weight)
+            putExtra("userHeight", user.height)
+        }
+        startActivity(intent)
+        finish()
+    }
 
 fun getWaterContent (drink: String): Double {
     return when (drink) {

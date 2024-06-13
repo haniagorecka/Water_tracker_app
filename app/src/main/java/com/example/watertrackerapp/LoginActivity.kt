@@ -6,9 +6,13 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import com.google.firebase.Firebase
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginActivity :  BaseActivity()
 {
@@ -69,9 +73,18 @@ fun goToRegister(view: View) {
                 .addOnCompleteListener{task ->
                     if(task.isSuccessful){
                         showErrorSnackBar("Login successful", false)
-                        val intent = Intent(this, UserDataAquire::class.java)
-                        intent.putExtra("uID", email)
-                        startActivity(intent)
+                        lifecycleScope.launch {
+                            val user = getUserInfoFromDB()
+                            if (user != null && user.data_set) {
+                                goToMainActivity(user)
+                            }
+                            else if (user!=null && !user.data_set)
+                              { goToDataActivity(user) }
+                            else
+                            {
+                                goToDataActivity(email)
+                            }
+                        }
                         finish()
 
                     } else{
@@ -81,19 +94,45 @@ fun goToRegister(view: View) {
         }
     }
 
-    fun goToDataActivity(email: String) {
-        val database = Firebase.firestore
-        val databaseOp = DatabaseOperations(database)
-
-            val uid = email
-            val intent = Intent(this, UserDataAquire::class.java)
-            intent.putExtra("uID",uid)
-            startActivity(intent)
-
-
-        //val user = FirebaseAuth.getInstance().currentUser;
-
+    private fun goToMainActivity(user: User) {
+        val intent = Intent(this, MainActivity::class.java).apply {
+            putExtra("uID", user.email)
+            putExtra("userAge", user.age)
+            putExtra("userWeight", user.weight)
+            putExtra("userHeight", user.height)
+        }
+        startActivity(intent)
+        finish()
+    }
+    private fun goToDataActivity(user: User) {
+        val intent = Intent(this, UserDataAquire::class.java).apply {
+            putExtra("uID", user.email)
+            putExtra("userAge", user.age)
+            putExtra("userWeight", user.weight)
+            putExtra("userHeight", user.height)
+        }
+        startActivity(intent)
+        finish()
+    }
+    private fun goToDataActivity(email: String) {
+        val intent = Intent(this, UserDataAquire::class.java).apply {
+            putExtra("uID", email)
+        }
+        startActivity(intent)
+        finish()
     }
 
+    private suspend fun getUserInfoFromDB(): User? {
+        val database = Firebase.firestore
+        val databaseOp = DatabaseOperations(database)
+        val userID = intent.getStringExtra("uID")
+        return if (userID != null) {
+            withContext(Dispatchers.IO) {
+                databaseOp.getUser(userID)
+            }
+        } else {
+            null
+        }
+    }
 
 }

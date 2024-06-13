@@ -3,7 +3,6 @@ package com.example.watertrackerapp
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -22,16 +21,20 @@ class UserDataAquire : BaseActivity() {
     private lateinit var inputHeight: EditText
     private lateinit var inputAge: EditText
     private lateinit var saveData: Button
-
+    private lateinit var skip: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_userdata)
-
+        val uID = intent
+        val userID = uID.getStringExtra("uID")
+        val database = Firebase.firestore
+        val databaseOp = DatabaseOperations(database)
         inputGender = findViewById(R.id.inputGenderText)
         inputWeight = findViewById(R.id.inputWeightNumber)
         inputHeight = findViewById(R.id.inputHeightNumber)
         inputAge = findViewById(R.id.inputAgeNumber)
         saveData = findViewById(R.id.saveButton)
+        skip = findViewById(R.id.skipButton)
 
         // Ustawienia spinnera jako dropdown listy
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, resources.getStringArray(R.array.array_name))
@@ -40,16 +43,56 @@ class UserDataAquire : BaseActivity() {
 
         saveData.setOnClickListener {
             lifecycleScope.launch {
-                readUserInfo()
+                val user = getUserInfoFromDB()
+                if (user==null)
+                {
+                    readUserInfo()
+                }
+                else
+                {
+                    readUserInfo(user)
+                }
+
+            }
+        }
+        skip.setOnClickListener {
+            lifecycleScope.launch {
+                val user = getUserInfoFromDB()
+                if(user!=null&&user.data_set)
+                {
+                    goToMainActivity(user)
+                }
+                else
+                {
+                    showErrorSnackBar(resources.getString(R.string.err_msg_no_data), true)
+                }
+
             }
         }
 
         lifecycleScope.launch {
             val user = getUserInfoFromDB()
-            if (user != null && user.data_set) {
-                goToMainActivity(user)
+                if (user!=null&&user.data_set)
+                {
+                      inputAge.hint = user.age.toString()
+                    inputHeight.hint = user.height.toString()
+                    inputWeight.hint = user.weight.toString()
+                    when(user.gender)
+                    {
+                        genderChoice.FEMALE -> {
+                            inputGender.setSelection(1)
+                        }
+                        genderChoice.MALE -> {
+                            inputGender.setSelection(0)
+                        }
+                        else ->
+                        {
+                            inputGender.setSelection(0)
+                        }
+                    }
+                }
             }
-        }
+
     }
 
     private fun validateInfo(): Boolean {
@@ -84,6 +127,7 @@ class UserDataAquire : BaseActivity() {
             val userGender = inputGender.selectedItem.toString()
             val user = FirebaseAuth.getInstance().currentUser
             val displayName = user?.displayName ?: "Unknown User"
+            //to usuwa imie
 
             val newUser = User(
                 email = user?.email ?: "",
@@ -96,6 +140,7 @@ class UserDataAquire : BaseActivity() {
                     "Male" -> genderChoice.MALE
                     else -> genderChoice.NOCHOICE
                 },
+                isRegistered = true,
                 data_set = true
             )
 
@@ -106,6 +151,64 @@ class UserDataAquire : BaseActivity() {
         }
     }
 
+    private suspend fun readUserInfo(user1: User) {
+
+        if (user1.data_set||validateInfo()) {
+            val database = Firebase.firestore
+            val databaseOp = DatabaseOperations(database)
+            val userWeight: Double
+            val userHeight: Double
+            val userAge: Int
+            if(inputWeight.text.isNotBlank())
+            {
+                userWeight = inputWeight.text.toString().toDouble()
+            }
+            else
+            {
+                userWeight = user1.weight
+            }
+            if(inputHeight.text.isNotBlank())
+            {
+                userHeight = inputHeight.text.toString().toDouble()
+            }
+            else
+            {
+                userHeight = user1.height
+            }
+            if(inputAge.text.isNotBlank())
+            {
+                userAge = inputAge.text.toString().toInt()
+            }
+            else
+            {
+                userAge = user1.age
+            }
+            val userGender = inputGender.selectedItem.toString()
+            val user = FirebaseAuth.getInstance().currentUser
+            val displayName = user?.displayName ?: "Unknown User"
+            //to usuwa imie
+
+            val newUser = User(
+                email = user?.email ?: "",
+                name = displayName,
+                age = userAge,
+                weight = userWeight,
+                height = userHeight,
+                gender = when (userGender) {
+                    "Female" -> genderChoice.FEMALE
+                    "Male" -> genderChoice.MALE
+                    else -> genderChoice.NOCHOICE
+                },
+                isRegistered = true,
+                data_set = true
+            )
+
+            withContext(Dispatchers.IO) {
+                databaseOp.editUser(newUser.email, newUser)
+            }
+            goToMainActivity(newUser)
+        }
+    }
     private suspend fun getUserInfoFromDB(): User? {
         val database = Firebase.firestore
         val databaseOp = DatabaseOperations(database)
