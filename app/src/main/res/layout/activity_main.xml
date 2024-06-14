@@ -197,16 +197,16 @@
         android:text="Dodaj"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.467"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DrinkAmount" />
+        app:layout_constraintTop_toBottomOf="@+id/DrinkAmount"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/Recommended"
-        android:layout_width="257dp"
-        android:layout_height="49dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/textView14"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -215,11 +215,10 @@
 
     <TextView
         android:id="@+id/Consumption"
-        android:layout_width="248dp"
-        android:layout_height="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="27dp"
         android:layout_marginBottom="43dp"
-        android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/textView11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -233,8 +232,11 @@
         android:layout_height="wrap_content"
         android:background="#18507a"
         android:text="Idż do statystyk"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
         app:layout_constraintBottom_toTopOf="@+id/textView13"
         app:layout_constraintEnd_toStartOf="@+id/buttonData"
+
         app:layout_constraintHorizontal_bias="0.181"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -246,12 +248,15 @@
         android:layout_height="wrap_content"
         android:background="#18507a"
         android:text="Zmień swoje dane"
+        android:padding="10dp"
+        android:layout_marginRight="10dp"
         app:layout_constraintBottom_toTopOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.81"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@id/DrinkAmount"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.457" />
+        app:layout_constraintVertical_bias="0.457"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
