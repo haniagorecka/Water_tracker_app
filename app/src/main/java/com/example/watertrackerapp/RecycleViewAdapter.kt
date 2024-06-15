@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RecycleViewAdapter (private val List: MutableList<RecycleViewData>): RecyclerView.Adapter<RecycleViewAdapter.ViewHolder>() {
 
+    var onItemClick: ((RecycleViewData) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.recycle_layout, parent, false)
@@ -22,6 +23,10 @@ class RecycleViewAdapter (private val List: MutableList<RecycleViewData>): Recyc
         holder.progressBar.max = 100
         //ObjectAnimator.ofInt(holder.progressBar, "progress", 0).setDuration(2000).start()
         holder.progressBar.progress = currentItem.percent
+
+        holder.itemView.setOnClickListener{
+            onItemClick?.invoke(currentItem)
+        }
 
     }
 

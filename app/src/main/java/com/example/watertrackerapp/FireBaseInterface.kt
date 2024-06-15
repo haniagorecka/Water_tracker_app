@@ -9,4 +9,6 @@ interface FireBaseInterface {
     suspend fun addWaterIntakeForUser(email: String, amount: Int, rec: Int)
     suspend fun getWaterIntakeForUser(email: String): Int
     suspend fun editWaterIntakeForUser(email: String, updatedWaterIntake: WaterIntake)
+    suspend fun addDrinkIntakeForUser(email: String, drinkIntake: DrinkIntake)
+    suspend fun getDrinkIntakeForUser(email: String, name: String): Int
 }

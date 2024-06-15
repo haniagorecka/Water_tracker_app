@@ -60,4 +60,28 @@ class DatabaseOperations(private val database: FirebaseFirestore): FireBaseInter
             .set(updatedWaterIntake)
             .await()
     }
+    override suspend fun addDrinkIntakeForUser(email: String, drinkIntake: DrinkIntake) {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentDate = dateFormat.format(Date())
+        database.collection("Users")
+            .document(email)
+            .collection("WaterIntake")
+            .document(currentDate)
+            .collection("Drinks")
+            .document(drinkIntake.name)
+            .set(drinkIntake)
+            .await()
+    }
+
+    override suspend fun getDrinkIntakeForUser(email: String, name: String): Int {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentDate = dateFormat.format(Date())
+        val snapshot = database.collection("Users")
+            .document(email).collection("WaterIntake")
+            .document(currentDate)
+            .collection("Drinks")
+            .document(name).get().await()
+        val amount = snapshot.get("amount").toString().toInt()
+        return amount
+    }
 }

@@ -21,6 +21,7 @@ class RecycleViewActivity: BaseActivity() {
     lateinit var GoToMainButton:Button
     var listOfDates = mutableListOf<RecycleViewData>()
     lateinit var recyclerView: RecyclerView
+    lateinit var dataAdapter: RecycleViewAdapter
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -58,7 +59,13 @@ class RecycleViewActivity: BaseActivity() {
                 recyclerView = findViewById(R.id.WaterRecycleVIew)
                 recyclerView.layoutManager = LinearLayoutManager(this@RecycleViewActivity)
                 recyclerView.setHasFixedSize(true)
-                recyclerView.adapter = RecycleViewAdapter(listOfDates)
+                dataAdapter = RecycleViewAdapter(listOfDates)
+                recyclerView.adapter = dataAdapter
+                dataAdapter.onItemClick = {
+                    val intent = Intent(this@RecycleViewActivity, Recycler_onClick::class.java)
+                    intent.putExtra("data", it)
+                    startActivity(intent)
+                }
             }
         }
 

@@ -152,17 +152,24 @@ class MainActivity : BaseActivity() {
         AddButton.setOnClickListener()
         {
             sendNotification(this, "Tak trzymaj!")
-            var waterIntake = if(DrinkAmount.text.isNotBlank()) {
+            var intake = if(DrinkAmount.text.isNotBlank()) {
                 DrinkAmount.text.toString().toInt()
             } else {
                 0
             }
             val drinkOption = DrinkOption.selectedItem.toString()
             val drink = getWaterContent(drinkOption)
-            waterIntake= (waterIntake*drink).roundToInt()
+            val waterIntake= (intake*drink).roundToInt()
             lifecycleScope.launch {
                 if (userID != null)
                 {
+                    var drinkAmount: Int
+                    try{ drinkAmount = databaseOp.getDrinkIntakeForUser(userID, drinkOption)}
+                    catch (e: Exception) {
+                        drinkAmount = 0
+                    }
+                    drinkAmount+=intake
+                    databaseOp.addDrinkIntakeForUser(userID, DrinkIntake(drinkOption, drinkAmount))
                     var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
@@ -207,6 +214,13 @@ class MainActivity : BaseActivity() {
             lifecycleScope.launch {
                 if (userID != null)
                 {
+                    var drinkAmount: Int
+                    try{ drinkAmount = databaseOp.getDrinkIntakeForUser(userID, drinkOption)}
+                    catch (e: Exception) {
+                        drinkAmount = 0
+                    }
+                    drinkAmount+=150
+                    databaseOp.addDrinkIntakeForUser(userID, DrinkIntake(drinkOption, drinkAmount))
                     var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
@@ -232,6 +246,13 @@ class MainActivity : BaseActivity() {
             lifecycleScope.launch {
                 if (userID != null)
                 {
+                    var drinkAmount: Int
+                    try{ drinkAmount = databaseOp.getDrinkIntakeForUser(userID, drinkOption)}
+                    catch (e: Exception) {
+                        drinkAmount = 0
+                    }
+                    drinkAmount+=250
+                    databaseOp.addDrinkIntakeForUser(userID, DrinkIntake(drinkOption, drinkAmount))
                     var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
@@ -257,6 +278,13 @@ class MainActivity : BaseActivity() {
             lifecycleScope.launch {
                 if (userID != null)
                 {
+                    var drinkAmount: Int
+                    try{ drinkAmount = databaseOp.getDrinkIntakeForUser(userID, drinkOption)}
+                    catch (e: Exception) {
+                        drinkAmount = 0
+                    }
+                    drinkAmount+=400
+                    databaseOp.addDrinkIntakeForUser(userID, DrinkIntake(drinkOption, drinkAmount))
                     var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
