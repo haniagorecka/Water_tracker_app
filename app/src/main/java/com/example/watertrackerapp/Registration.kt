@@ -127,5 +127,4 @@ class Registration: BaseActivity ()
         Toast.makeText(this@Registration, resources.getString(R.string.register_success_message), Toast.LENGTH_LONG).show()
 
     }
-
 }
