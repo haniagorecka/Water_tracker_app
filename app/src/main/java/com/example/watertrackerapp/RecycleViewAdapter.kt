@@ -3,6 +3,7 @@ package com.example.watertrackerapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -18,6 +19,9 @@ class RecycleViewAdapter (private val List: MutableList<RecycleViewData>): Recyc
         val currentItem = List[position]
         holder.dateView.text = currentItem.date
         holder.amountView.text = currentItem.amount + " ml"
+        holder.progressBar.max = 100
+        //ObjectAnimator.ofInt(holder.progressBar, "progress", 0).setDuration(2000).start()
+        holder.progressBar.progress = currentItem.percent
 
     }
 
@@ -28,5 +32,6 @@ class RecycleViewAdapter (private val List: MutableList<RecycleViewData>): Recyc
     {
        val dateView : TextView = itemView.findViewById(R.id.DateRecycle)
        val amountView: TextView = itemView.findViewById(R.id.AmountRecycle)
+        val progressBar: ProgressBar = itemView.findViewById(R.id.progressBar2)
     }
 }

@@ -12,9 +12,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import kotlin.math.roundToInt
 
 data class Date (@get: PropertyName("date") @set: PropertyName("date") var date: String = "",
-            @get: PropertyName("amount") @set: PropertyName("amount") var amount: Int = 0)
+            @get: PropertyName("amount") @set: PropertyName("amount") var amount: Int = 0,
+                 @get: PropertyName("rec") @set: PropertyName("rec") var rec: Int = 0)
 class RecycleViewActivity: BaseActivity() {
     lateinit var GoToMainButton:Button
     var listOfDates = mutableListOf<RecycleViewData>()
@@ -40,12 +42,14 @@ class RecycleViewActivity: BaseActivity() {
                    val date =  it.toObject(Date::class.java)
                    if(date!=null)
                    {
-                       val data: RecycleViewData = RecycleViewData(date.date, date.amount.toString())
+                       val percent = 100.0*date.amount/date.rec
+                       val per = percent.roundToInt()
+                       val data: RecycleViewData = RecycleViewData(date.date, date.amount.toString(), per)
                        listOfDates.add(data)
                    }
                    else
                    {
-                       throw Exception("Exceprion!!!!!!")
+                       throw Exception("Exception!!!!!!")
                    }
 
 
@@ -57,7 +61,7 @@ class RecycleViewActivity: BaseActivity() {
                 recyclerView.adapter = RecycleViewAdapter(listOfDates)
             }
         }
-        else throw Exception("WTFFFF!!!")
+
 
 //        val DateList = mutableListOf<String>("1", "2", "3", "1", "2", "3", "1", "2", "3")
 //        val AmountList = mutableListOf<String>("A", "B", "C", "D", "A", "B", "C", "D", "E")

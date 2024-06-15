@@ -1,3 +1,3 @@
 package com.example.watertrackerapp
 
-data class RecycleViewData (var date: String = "", var amount: String = "")
+data class RecycleViewData (var date: String = "", var amount: String = "", var percent: Int)

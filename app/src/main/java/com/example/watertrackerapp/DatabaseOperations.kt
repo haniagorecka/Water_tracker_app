@@ -29,10 +29,10 @@ class DatabaseOperations(private val database: FirebaseFirestore): FireBaseInter
         database.collection("Users").document(email).delete().await()
     }
 
-    override suspend fun addWaterIntakeForUser(email: String, amount: Int) {
+    override suspend fun addWaterIntakeForUser(email: String, amount: Int, rec: Int) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val currentDate = dateFormat.format(Date())
-        var waterIntake = WaterIntake(amount, currentDate)
+        var waterIntake = WaterIntake(amount, currentDate, rec)
         database.collection("Users")
             .document(email)
             .collection("WaterIntake")

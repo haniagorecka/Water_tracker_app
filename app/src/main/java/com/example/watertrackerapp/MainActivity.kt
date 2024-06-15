@@ -124,8 +124,9 @@ class MainActivity : BaseActivity() {
          "female" -> userGender = genderChoice.FEMALE
          else -> userGender = genderChoice.MALE
         }
-        Recommended.text = Recomendation(userWeight, userHeight, userAge, userGender).toString()
-        Progress.max = Recomendation(userWeight, userHeight, userAge, userGender).toInt()
+        val rec = Recomendation(userWeight, userHeight, userAge, userGender)
+        Recommended.text = rec.toString()
+        Progress.max = rec.toInt()
         var totalWaterIntake:Int = 0
         lifecycleScope.launch {
             if (userID != null)
@@ -133,7 +134,7 @@ class MainActivity : BaseActivity() {
                 try {
                     totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
                 } catch (e: Exception) {
-                    databaseOp.addWaterIntakeForUser(userID, 0)
+                    databaseOp.addWaterIntakeForUser(userID, 0, rec)
                 }
                 Consumption.text = totalWaterIntake.toString()
                 if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
@@ -147,6 +148,7 @@ class MainActivity : BaseActivity() {
             }
         }
         ObjectAnimator.ofInt(Progress, "progress", totalWaterIntake).setDuration(2000).start()
+        totalWaterIntake += 0
         AddButton.setOnClickListener()
         {
             sendNotification(this, "Tak trzymaj!")
@@ -164,7 +166,7 @@ class MainActivity : BaseActivity() {
                     var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
-                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake)
+                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake, rec)
                     if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
                     {
                         Progress.progress = totalWaterIntake.toInt()
@@ -208,7 +210,7 @@ class MainActivity : BaseActivity() {
                     var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
-                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake)
+                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake, rec)
                     if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
                     {
                         Progress.progress = totalWaterIntake.toInt()
@@ -233,7 +235,7 @@ class MainActivity : BaseActivity() {
                     var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
-                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake)
+                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake, rec)
                     if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
                     {
                         Progress.progress = totalWaterIntake.toInt()
@@ -258,7 +260,7 @@ class MainActivity : BaseActivity() {
                     var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
-                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake)
+                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake, rec)
                     if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
                     {
                         Progress.progress = totalWaterIntake.toInt()
