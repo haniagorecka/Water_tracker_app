@@ -1,7 +1,10 @@
 package com.example.watertrackerapp
 
+import android.Manifest
 import android.animation.ObjectAnimator
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -10,14 +13,15 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.TextView
-import androidx.compose.material3.Text
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -25,12 +29,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
-import androidx.activity.result.contract.ActivityResultContracts
-import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 
 class MainActivity : BaseActivity() {
     private lateinit var DrinkOption: Spinner
@@ -118,11 +116,19 @@ class MainActivity : BaseActivity() {
         val userAge = uID.getIntExtra("userAge", 0)
         val userWeight = uID.getDoubleExtra("userWeight", 0.0)
         val userHeight = uID.getDoubleExtra("userHeight", 0.0)
-        Recommended.text = Recomendation(userWeight).toString()
-        Progress.max = Recomendation(userWeight).toInt()
+        val userGenderName = uID.getStringExtra("userGender")
+        var userGender: genderChoice
+        when(userGenderName)
+        {
+         "male" -> userGender = genderChoice.MALE
+         "female" -> userGender = genderChoice.FEMALE
+         else -> userGender = genderChoice.MALE
+        }
+        Recommended.text = Recomendation(userWeight, userHeight, userAge, userGender).toString()
+        Progress.max = Recomendation(userWeight, userHeight, userAge, userGender).toInt()
         var totalWaterIntake:Int = 0
         lifecycleScope.launch {
-            if (userID != null) //potencjalnie "try catch"
+            if (userID != null)
             {
                 try {
                     totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
@@ -130,7 +136,7 @@ class MainActivity : BaseActivity() {
                     databaseOp.addWaterIntakeForUser(userID, 0)
                 }
                 Consumption.text = totalWaterIntake.toString()
-                if(totalWaterIntake<=Recomendation(userWeight))
+                if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
                 {
                     Progress.progress = totalWaterIntake.toInt()
                 }
@@ -159,7 +165,7 @@ class MainActivity : BaseActivity() {
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
                     databaseOp.addWaterIntakeForUser(userID, totalWaterIntake)
-                    if(totalWaterIntake<=Recomendation(userWeight))
+                    if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
                     {
                         Progress.progress = totalWaterIntake.toInt()
                     }
@@ -203,7 +209,7 @@ class MainActivity : BaseActivity() {
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
                     databaseOp.addWaterIntakeForUser(userID, totalWaterIntake)
-                    if(totalWaterIntake<=Recomendation(userWeight))
+                    if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
                     {
                         Progress.progress = totalWaterIntake.toInt()
                     }
@@ -228,7 +234,7 @@ class MainActivity : BaseActivity() {
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
                     databaseOp.addWaterIntakeForUser(userID, totalWaterIntake)
-                    if(totalWaterIntake<=Recomendation(userWeight))
+                    if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
                     {
                         Progress.progress = totalWaterIntake.toInt()
                     }
@@ -253,7 +259,7 @@ class MainActivity : BaseActivity() {
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
                     databaseOp.addWaterIntakeForUser(userID, totalWaterIntake)
-                    if(totalWaterIntake<=Recomendation(userWeight))
+                    if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
                     {
                         Progress.progress = totalWaterIntake.toInt()
                     }
@@ -355,16 +361,25 @@ class MainActivity : BaseActivity() {
 //}
 
 
-        @Composable
-        fun Recomendation(weight: Double, modifier: Modifier = Modifier) {
-            Text(
-                text = "Rekomendowane spożycie wody: ${(weight * 35.0).toInt()} ml",
-                modifier = modifier
-            )
-        }
+//        @Composable
+//        fun Recomendation(weight: Double, modifier: Modifier = Modifier) {
+//            Text(
+//                text = "Rekomendowane spożycie wody: ${(weight * 35.0).toInt()} ml",
+//                modifier = modifier
+//            )
+//        }
 
-        fun Recomendation(weight: Double): Int{
-            return (weight * 35).toInt()
+        fun Recomendation(weight: Double, height: Double, age: Int, gender: genderChoice): Int{
+            if(gender == genderChoice.MALE)
+            {
+                val rec = 466.473 + 13.7516*weight+5.0033*height-6.755*age
+                return rec.roundToInt()
+            }
+            else
+            {
+                val rec = 1055.0955 + 9.5634*weight+1.8496*height-4.6756*age
+                return rec.roundToInt()
+            }
         }
 
 //@Preview(showBackground = true)

@@ -1,5 +1,6 @@
 package com.example.watertrackerapp
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -22,6 +23,7 @@ class UserDataAquire : BaseActivity() {
     private lateinit var inputAge: EditText
     private lateinit var saveData: Button
     private lateinit var skip: Button
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_userdata)
@@ -72,9 +74,9 @@ class UserDataAquire : BaseActivity() {
 
         lifecycleScope.launch {
             val user = getUserInfoFromDB()
-                if (user!=null&&user.data_set)
+            if (user!=null&&user.data_set)
                 {
-                      inputAge.hint = user.age.toString()
+                    inputAge.hint = user.age.toString()
                     inputHeight.hint = user.height.toString()
                     inputWeight.hint = user.weight.toString()
                     when(user.gender)
@@ -228,6 +230,12 @@ class UserDataAquire : BaseActivity() {
             putExtra("userAge", user.age)
             putExtra("userWeight", user.weight)
             putExtra("userHeight", user.height)
+            when(user.gender)
+            {
+                genderChoice.MALE -> putExtra("userGender", "male")
+                genderChoice.FEMALE-> putExtra("userGender", "female")
+                else -> putExtra("userGender", "male")
+            }
         }
         startActivity(intent)
         finish()

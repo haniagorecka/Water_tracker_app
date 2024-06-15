@@ -110,6 +110,12 @@ fun goToRegister(view: View) {
             putExtra("userAge", user.age)
             putExtra("userWeight", user.weight)
             putExtra("userHeight", user.height)
+            when(user.gender)
+            {
+                genderChoice.MALE -> putExtra("userGender", "male")
+                genderChoice.FEMALE-> putExtra("userGender", "female")
+                else -> putExtra("userGender", "male")
+            }
         }
         startActivity(intent)
         finish()
