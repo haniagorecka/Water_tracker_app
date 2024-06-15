@@ -25,6 +25,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
+import androidx.activity.result.contract.ActivityResultContracts
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 class MainActivity : BaseActivity() {
     private lateinit var DrinkOption: Spinner
@@ -39,11 +45,22 @@ class MainActivity : BaseActivity() {
     private lateinit var GoToStats: Button
     private lateinit var GoToData: Button
 
-
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // Uprawnienie przyznane
+            sendNotification(this)
+        } else {
+            // Uprawnienie nie przyznane
+            // Możesz pokazać użytkownikowi informację, że uprawnienie jest wymagane
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         DrinkOption = findViewById(R.id.DrinkOptions)
         DrinkAmount = findViewById(R.id.DrinkAmount)
         AddButton = findViewById(R.id.AddButton)
@@ -55,6 +72,36 @@ class MainActivity : BaseActivity() {
         Progress = findViewById(R.id.progressBar)
         GoToStats= findViewById(R.id.buttonStat)
         GoToData= findViewById(R.id.buttonData)
+
+        createNotificationChannel(this)
+
+        // zgoda na wysyłanie powiadomien
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            when {
+                ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    // Uprawnienie już przyznane
+                    sendNotification(this)
+                }
+                ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) -> {
+                    // Pokaż wyjaśnienie, dlaczego uprawnienie jest potrzebne
+                    // Następnie poproś o uprawnienie
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+                else -> {
+                    // Bezpośrednio poproś o uprawnienie
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+        } else {
+            // Dla starszych wersji SDK, uprawnienie nie jest wymagane
+            sendNotification(this)
+        }
 
         val database = Firebase.firestore
         val databaseOp = DatabaseOperations(database)
@@ -96,13 +143,14 @@ class MainActivity : BaseActivity() {
         ObjectAnimator.ofInt(Progress, "progress", totalWaterIntake).setDuration(2000).start()
         AddButton.setOnClickListener()
         {
-           var waterIntake = if(DrinkAmount.text.isNotBlank()) {
+            sendNotification(this, "Tak trzymaj!")
+            var waterIntake = if(DrinkAmount.text.isNotBlank()) {
                 DrinkAmount.text.toString().toInt()
             } else {
                 0
             }
-           val drinkOption = DrinkOption.selectedItem.toString()
-           val drink = getWaterContent(drinkOption)
+            val drinkOption = DrinkOption.selectedItem.toString()
+            val drink = getWaterContent(drinkOption)
             waterIntake= (waterIntake*drink).roundToInt()
             lifecycleScope.launch {
                 if (userID != null)
@@ -120,7 +168,7 @@ class MainActivity : BaseActivity() {
                         Progress.progress = Progress.max
                     }
                 }
-             }
+            }
         }
 
         GoToStats.setOnClickListener()
@@ -165,6 +213,7 @@ class MainActivity : BaseActivity() {
                     }
                 }
             }
+            sendNotification(this, "Podoba mi się!")
         }
         MediumCup.setOnClickListener()
         {
@@ -189,6 +238,7 @@ class MainActivity : BaseActivity() {
                     }
                 }
             }
+            sendNotification(this, "Jest coraz lepiej!")
         }
         BigCup.setOnClickListener()
         {
@@ -213,6 +263,7 @@ class MainActivity : BaseActivity() {
                     }
                 }
             }
+            sendNotification(this, "Ale duży kubek!")
         }
 
         //val userID = intent.getStringExtra("userID") ?: "User"
