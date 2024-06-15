@@ -12,10 +12,7 @@
         android:layout_width="104dp"
         android:layout_height="77dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/buttonStat"
-        app:layout_constraintEnd_toStartOf="@+id/MediumCup"
-        app:layout_constraintHorizontal_bias="0.769"
-        app:layout_constraintStart_toStartOf="@+id/buttonStat"
+        app:layout_constraintStart_toStartOf="@+id/textView7"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.628"
         app:srcCompat="@drawable/small_cup"
@@ -55,9 +52,10 @@
         android:textAlignment="center"
         android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView8"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SmallCup"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="61dp" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView8"
