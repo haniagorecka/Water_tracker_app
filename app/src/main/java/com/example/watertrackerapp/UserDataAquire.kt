@@ -76,9 +76,9 @@ class UserDataAquire : BaseActivity() {
             val user = getUserInfoFromDB()
             if (user!=null&&user.data_set)
                 {
-                    inputAge.hint = user.age.toString()
-                    inputHeight.hint = user.height.toString()
-                    inputWeight.hint = user.weight.toString()
+                    inputAge.hint = "Wiek: "+user.age.toString()
+                    inputHeight.hint = "Wzrost: "+user.height.toString()
+                    inputWeight.hint ="Waga: "+user.weight.toString()
                     when(user.gender)
                     {
                         genderChoice.FEMALE -> {

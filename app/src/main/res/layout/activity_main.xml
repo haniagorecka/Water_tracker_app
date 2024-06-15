@@ -12,9 +12,10 @@
         android:layout_width="104dp"
         android:layout_height="77dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/buttonStat"
         app:layout_constraintEnd_toStartOf="@+id/MediumCup"
         app:layout_constraintHorizontal_bias="0.769"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/buttonStat"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.628"
         app:srcCompat="@drawable/small_cup"
@@ -48,37 +49,43 @@
 
     <TextView
         android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
+        android:layout_width="96dp"
+        android:layout_height="22dp"
         android:text="150 ml"
+        android:textAlignment="center"
+        android:textAllCaps="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SmallCup"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="61dp" />
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="67dp"
+        android:layout_height="24dp"
         android:text="250 ml"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="@+id/MediumCup"
         app:layout_constraintEnd_toStartOf="@+id/textView9"
-        app:layout_constraintHorizontal_bias="0.464"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/MediumCup"
+        app:layout_constraintStart_toStartOf="@+id/MediumCup"
+        app:layout_constraintTop_toTopOf="@+id/textView7"
         app:layout_constraintVertical_bias="0.013" />
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="64dp"
+        android:layout_width="79dp"
+        android:layout_height="19dp"
+        android:layout_marginEnd="56dp"
         android:text="400 ml"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/textView8"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BigCup"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/textView8"
+        app:layout_constraintVertical_bias="0.013" />
 
     <Spinner
         android:id="@+id/DrinkOptions"
@@ -86,9 +93,7 @@
         android:layout_height="61dp"
         android:entries="@array/array_drink"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.246"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/DrinkAmount"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.812" />
 
@@ -110,9 +115,9 @@
         android:layout_height="wrap_content"
         android:text="Dodaj wypitą wodę"
         app:layout_constraintBottom_toTopOf="@+id/MediumCup"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView14"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView14"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.879" />
 
@@ -135,6 +140,7 @@
         android:ems="10"
         android:hint="objętość w ml"
         android:inputType="number"
+        android:textColorLink="#3949AB"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.169"
@@ -173,8 +179,8 @@
         android:layout_height="wrap_content"
         android:text="Całkowite spożycie wody:"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView15"
+        app:layout_constraintStart_toStartOf="@+id/textView15"
         app:layout_constraintTop_toBottomOf="@+id/textView15"
         app:layout_constraintVertical_bias="0.15" />
 
@@ -184,9 +190,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:text="Zalecane spożycie wody:"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView13"
         app:layout_constraintHorizontal_bias="0.547"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView13"
         app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
     <Button
@@ -229,10 +235,10 @@
         android:id="@+id/buttonStat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#18507a"
-        android:text="Idż do statystyk"
-        android:padding="10dp"
         android:layout_marginLeft="10dp"
+        android:background="#18507a"
+        android:padding="10dp"
+        android:text="Idż do statystyk"
         app:layout_constraintBottom_toTopOf="@+id/textView13"
         app:layout_constraintEnd_toStartOf="@+id/buttonData"
 
@@ -245,17 +251,16 @@
         android:id="@+id/buttonData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#18507a"
-        android:text="Zmień swoje dane"
-        android:padding="10dp"
         android:layout_marginRight="10dp"
+        android:background="#18507a"
+        android:padding="10dp"
+        android:text="Zmień swoje dane"
         app:layout_constraintBottom_toTopOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/DrinkAmount"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.457"
-        />
+        app:layout_constraintVertical_bias="0.457" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

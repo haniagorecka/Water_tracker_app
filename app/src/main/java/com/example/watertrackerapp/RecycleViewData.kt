@@ -3,8 +3,10 @@ package com.example.watertrackerapp
 import android.os.Parcel
 import android.os.Parcelable
 
-data class RecycleViewData (var date: String = "", var amount: String = "", var percent: Int) :Parcelable {
+data class RecycleViewData (var email: String = "", var date: String = "", var amount: String = "", var percent: Int) :
+    Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readInt()
@@ -12,6 +14,7 @@ data class RecycleViewData (var date: String = "", var amount: String = "", var 
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(email)
         parcel.writeString(date)
         parcel.writeString(amount)
         parcel.writeInt(percent)
@@ -30,4 +33,5 @@ data class RecycleViewData (var date: String = "", var amount: String = "", var 
             return arrayOfNulls(size)
         }
     }
+
 }

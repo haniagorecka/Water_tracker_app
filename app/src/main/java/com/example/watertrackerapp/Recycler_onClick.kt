@@ -3,6 +3,11 @@ package com.example.watertrackerapp
 import android.os.Bundle
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class Recycler_onClick : BaseActivity() {
     lateinit var dateText: TextView
@@ -17,64 +22,40 @@ class Recycler_onClick : BaseActivity() {
         drinkText = findViewById(R.id.drinksText)
         amountText = findViewById(R.id.amountText)
         val data = intent.getParcelableExtra<RecycleViewData>("data")
-        if(data!=null)
-        {
+        if (data != null) {
             dateText.text = data.date
         }
 
-        drinkText.text = "drink1\ndrink2\ndrink3\ndrink1\n" +
-                "drink2\n" +
-                "drink3drink1\n" +
-                "drink2\n" +
-                "drink3drink1\n" +
-                "drink2\n" +
-                "drink3drink1\n" +
-                "drink2\n" +
-                "drink3drink1\n" +
-                "drink2\n" +
-                "drink3drink1\n" +
-                "drink2\n" +
-                "drink3\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml"
-        amountText.text = "100 ml\n200 ml\n1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml\n" +
-                "200 ml\n" +
-                "1000 ml"
+        val database = Firebase.firestore
+        val databaseOp = DatabaseOperations(database)
+        val userID = data?.email
+        var drinks: String = ""
+        var amounts: String = ""
+        lifecycleScope.launch {
+
+            if (userID != null) {
+                val snapshot = database.collection("Users")
+                    .document(userID).collection("WaterIntake")
+                    .document(data.date)
+                    .collection("Drinks")
+                    .get().await()
+
+                snapshot.forEach {
+
+                    val drink = it.toObject(DrinkIntake::class.java)
+                    if (drink != null) {
+                        drinks += drink.name
+                        drinks += "\n"
+                        amounts += drink.amount
+                        amounts += " ml\n"
+                    } else {
+                        throw Exception("Exception!!!!!!")
+                    }
+                }
+            }
+
+            drinkText.text = drinks
+            amountText.text = amounts
+        }
     }
 }

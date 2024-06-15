@@ -11,8 +11,12 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:fontFamily="sans-serif-condensed-light"
-        android:text="Login"
+        android:text="Logowanie"
         android:textColor="#045377"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -20,25 +24,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"/>
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/inputEmailText1"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginTop="45dp"
+        android:backgroundTint="#539ed6"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
+        android:textColorHighlight="#1E88E5"
         android:textColorHint="#045377"
+        android:textColorLink="#3949AB"
+        android:textCursorDrawable="@drawable/cursor_new"
         app:layout_constraintBottom_toTopOf="@+id/inputPasswordText1"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView3"
         app:layout_constraintHorizontal_bias="0.484"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <EditText
@@ -46,14 +50,18 @@
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginBottom="7dp"
+        android:backgroundTint="#539ed6"
         android:ems="10"
-        android:hint="Password"
+        android:hint="Hasło "
         android:inputType="textPassword"
+        android:textColorHighlight="#1E88E5"
         android:textColorHint="#045377"
+        android:textColorLink="#3949AB"
+        android:textCursorDrawable="@drawable/cursor_new"
         app:layout_constraintBottom_toTopOf="@+id/loginButton"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/inputEmailText1"
         app:layout_constraintHorizontal_bias="0.484"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/inputEmailText1"
         app:layout_constraintTop_toBottomOf="@+id/inputEmailText1" />
 
     <TextView
@@ -61,9 +69,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="If you don't have an account, register first"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="Jeśli nie masz jeszcze konta, przejdź do rejestracji"
+        app:layout_constraintEnd_toEndOf="@+id/loginButton"
+        app:layout_constraintStart_toStartOf="@+id/loginButton"
         app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 
     <Button
@@ -75,13 +83,13 @@
         android:backgroundTint="#91045377"
         android:fontFamily="sans-serif-condensed-light"
         android:shadowColor="#434343"
-        android:text="Log in"
+        android:text="Zaloguj"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/inputPasswordText1"
+        app:layout_constraintStart_toStartOf="@+id/inputPasswordText1"
         app:layout_constraintTop_toBottomOf="@+id/inputPasswordText1" />
 
     <Button
@@ -91,10 +99,10 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="187dp"
         android:onClick="goToRegister"
-        android:text="Register"
+        android:text="Rejestracja"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView4"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

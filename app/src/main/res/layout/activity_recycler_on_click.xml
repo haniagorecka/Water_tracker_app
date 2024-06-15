@@ -18,7 +18,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.066" />
@@ -29,13 +29,15 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="26dp"
         android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView17"
-        android:padding="10dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -55,15 +57,16 @@
 
             <TextView
                 android:id="@+id/drinksText"
-                android:layout_width="196dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:fontFamily="sans-serif-black"
                 android:padding="10dp"
                 android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/amountText"
-                android:layout_width="199dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-black"

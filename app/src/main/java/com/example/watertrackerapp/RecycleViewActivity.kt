@@ -45,7 +45,7 @@ class RecycleViewActivity: BaseActivity() {
                    {
                        val percent = 100.0*date.amount/date.rec
                        val per = percent.roundToInt()
-                       val data: RecycleViewData = RecycleViewData(date.date, date.amount.toString(), per)
+                       val data: RecycleViewData = RecycleViewData(userID, date.date, date.amount.toString(), per)
                        listOfDates.add(data)
                    }
                    else
