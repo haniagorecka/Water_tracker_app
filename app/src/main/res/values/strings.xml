@@ -7,9 +7,9 @@
     <string name="err_msg_password_mismatch">Passwords have to match</string>
     <string name="register_success_message">Successful registration!</string>
     <string name="err_msg_wrong_login">Wrong login info, if you don\'t have an account you have to register first</string>
-    <string name="err_msg_enter_weight">You must provide wight you fat dumbass</string>
-    <string name="err_msg_enter_age">You must provide your age fucking kiddo</string>
-    <string name="err_msg_enter_height">You must provide your height you freackin antman</string>
+    <string name="err_msg_enter_weight">You must provide weight</string>
+    <string name="err_msg_enter_age">You must provide your age</string>
+    <string name="err_msg_enter_height">You must provide your height</string>
     <string name="err_msg_data_acquired">All data aquired</string>
     <string name="err_msg_no_data">You have to fill in your data first</string>
 

@@ -77,8 +77,8 @@ class UserDataAquire : BaseActivity() {
             if (user!=null&&user.data_set)
                 {
                     inputAge.hint = "Wiek: "+user.age.toString()
-                    inputHeight.hint = "Wzrost: "+user.height.toString()
-                    inputWeight.hint ="Waga: "+user.weight.toString()
+                    inputHeight.hint = "Wzrost: "+user.height.toString()+" cm"
+                    inputWeight.hint ="Waga: "+user.weight.toString()+" kg"
                     when(user.gender)
                     {
                         genderChoice.FEMALE -> {

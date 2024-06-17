@@ -55,7 +55,7 @@ fun goToRegister(view: View) {
             }
 
             else -> {
-                showErrorSnackBar("Valid login info",false)
+                showErrorSnackBar("All login info provided, wait for log in",false)
                 true
             }
         }

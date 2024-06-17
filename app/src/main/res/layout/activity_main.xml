@@ -135,10 +135,13 @@
         android:id="@+id/DrinkAmount"
         android:layout_width="327dp"
         android:layout_height="56dp"
+        android:backgroundTint="#8E7CC3"
         android:ems="10"
         android:hint="objętość w ml"
         android:inputType="number"
+        android:maxLength="4"
         android:textColorLink="#3949AB"
+        android:textCursorDrawable="@drawable/cursor_new"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.169"
@@ -259,6 +262,16 @@
         app:layout_constraintStart_toEndOf="@id/DrinkAmount"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.457" />
+
+    <ImageView
+        android:id="@+id/infoButton"
+        android:layout_width="42dp"
+        android:layout_height="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.375"
+        app:layout_constraintStart_toEndOf="@+id/textView15"
+        app:layout_constraintTop_toTopOf="@+id/textView15"
+        app:srcCompat="@drawable/information" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

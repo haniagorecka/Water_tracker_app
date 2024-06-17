@@ -42,6 +42,8 @@ class MainActivity : BaseActivity() {
     private lateinit var Progress: ProgressBar
     private lateinit var GoToStats: Button
     private lateinit var GoToData: Button
+    private lateinit var Info: ImageView
+
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -70,6 +72,7 @@ class MainActivity : BaseActivity() {
         Progress = findViewById(R.id.progressBar)
         GoToStats= findViewById(R.id.buttonStat)
         GoToData= findViewById(R.id.buttonData)
+        Info = findViewById(R.id.infoButton)
 
         createNotificationChannel(this)
 
@@ -187,6 +190,15 @@ class MainActivity : BaseActivity() {
         }
 
         GoToStats.setOnClickListener()
+        {
+            lifecycleScope.launch {
+                val user = getUserInfoFromDB()
+                if (user != null && user.data_set) {
+                    goToStatsActivity(user)
+                }
+            }
+        }
+        Info.setOnClickListener()
         {
             lifecycleScope.launch {
                 val user = getUserInfoFromDB()
@@ -340,75 +352,18 @@ class MainActivity : BaseActivity() {
         {
             waterIntake = DrinkAmount.text.toString()
             totalWaterIntake += waterIntake.toInt()
-            //coroutineScope.launch {
-              //     databaseOp.addWaterIntakeForUser(name, totalWaterIntake.toDouble())
-           // }
         }
 
-
-//    Column(modifier = Modifier
-//        .padding(16.dp)
-//        .fillMaxWidth()
-//        .fillMaxHeight()) {
-//        Greeting(name = "$name, ")
-//        OutlinedTextField(
-//            value = waterIntake,
-//            onValueChange = { waterIntake = it },
-//            label = { Text("Dodaj spożycie wody (ml)") },
-//            singleLine = true,
-//            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-//            keyboardActions = KeyboardActions(onDone = {
-//                totalWaterIntake += waterIntake.toIntOrNull() ?: 0
-//                waterIntake = ""
-//            }),
-//            modifier = Modifier.fillMaxWidth() // Zastosowanie fillMaxWidth, aby pole tekstowe miało szerokość kolumny
-//        )
-//        Button(
-//            onClick = {
-//                totalWaterIntake += waterIntake.toIntOrNull() ?: 0
-//                waterIntake = ""
-//                coroutineScope.launch {
-//                    databaseOp.addWaterIntakeForUser(name, totalWaterIntake.toDouble())
-//                }
-//            },
-//            modifier = Modifier
-//                .padding(top = 8.dp)
-//                .fillMaxWidth() // Zastosowanie fillMaxWidth, aby przycisk miał szerokość kolumny
-//        ) {
-//            Text("Dodaj")
-//        }
-//        Text("Całkowite spożycie wody: $totalWaterIntake ml", modifier = Modifier.padding(top = 8.dp))
-//        Recomendation(userWeight, modifier = Modifier.padding(top = 8.dp))
-//    }
         }
 
-//@Composable
-//fun Greeting(name: String, modifier: Modifier = Modifier) {
-//    Text(
-//        text = "Hello $name!",
-//        modifier = modifier
-//    )
-//}
-
-
-//        @Composable
-//        fun Recomendation(weight: Double, modifier: Modifier = Modifier) {
-//            Text(
-//                text = "Rekomendowane spożycie wody: ${(weight * 35.0).toInt()} ml",
-//                modifier = modifier
-//            )
-//        }
 
         fun Recomendation(weight: Double, height: Double, age: Int, gender: genderChoice): Int{
-            if(gender == genderChoice.MALE)
-            {
+            return if(gender == genderChoice.MALE) {
                 val rec = 466.473 + 13.7516*weight+5.0033*height-6.755*age
-                return rec.roundToInt()
-            }
-            else
-            {
+                rec.roundToInt()
+            } else {
                 val rec = 1055.0955 + 9.5634*weight+1.8496*height-4.6756*age
-                return rec.roundToInt()
+                rec.roundToInt()
             }
         }
 
