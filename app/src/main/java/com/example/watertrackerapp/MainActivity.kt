@@ -14,6 +14,7 @@ import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.cardview.widget.CardView
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -29,6 +31,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
+
 
 class MainActivity : BaseActivity() {
     private lateinit var DrinkOption: Spinner
@@ -43,6 +46,14 @@ class MainActivity : BaseActivity() {
     private lateinit var GoToStats: Button
     private lateinit var GoToData: Button
     private lateinit var Info: ImageView
+    private lateinit var InfoScreen: CardView
+    private lateinit var InfoText: TextView
+    private lateinit var Close: ImageView
+    private lateinit var Close2: ImageView
+    private lateinit var SportScreen: CardView
+    private lateinit var KcalText: EditText
+    private lateinit var SportIcon: ImageView
+    private lateinit var KcalDodaj: Button
 
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -73,6 +84,15 @@ class MainActivity : BaseActivity() {
         GoToStats= findViewById(R.id.buttonStat)
         GoToData= findViewById(R.id.buttonData)
         Info = findViewById(R.id.infoButton)
+        InfoScreen = findViewById(R.id.cardViewInfo)
+        InfoText = findViewById(R.id.InfoView)
+        Close = findViewById(R.id.CloseImage)
+        Close2 = findViewById(R.id.CloseImage2)
+        SportScreen = findViewById(R.id.cardViewSport)
+        KcalText = findViewById(R.id.Calorie)
+        KcalDodaj = findViewById(R.id.kcalAdd)
+
+
 
         createNotificationChannel(this)
 
@@ -200,12 +220,26 @@ class MainActivity : BaseActivity() {
         }
         Info.setOnClickListener()
         {
-            lifecycleScope.launch {
-                val user = getUserInfoFromDB()
-                if (user != null && user.data_set) {
-                    goToStatsActivity(user)
-                }
+            InfoText.text = "Twoje rekomendowane spożycie wody zostało obliczone na podstawie " +
+                    "twojego dziennego zużycia kalorii przy przyjętej umiarkowanej aktywności.\n " +
+                    "Twoje rekomendowane spożycie wody wynosi: $rec ml, " +
+                    "istotne jest żeby pić regularnie przez cały dzień.\n\n" +
+                    "Pij ${rec/12} ml wody co godzinę żeby osiągnąć odpowiednie nawodnienie! "
+            InfoScreen.isVisible = true
+            Close.setOnClickListener()
+            {
+                InfoScreen.isVisible = false
             }
+        }
+
+        SportIcon.setOnClickListener()
+        {
+            SportScreen.isVisible = true
+            KcalDodaj.setOnClickListener()
+            {
+                val kcal = KcalText.text.toString().toInt()
+            }
+
         }
         GoToData.setOnClickListener()
         {
