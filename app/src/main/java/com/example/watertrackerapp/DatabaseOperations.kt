@@ -29,10 +29,10 @@ class DatabaseOperations(private val database: FirebaseFirestore): FireBaseInter
         database.collection("Users").document(email).delete().await()
     }
 
-    override suspend fun addWaterIntakeForUser(email: String, amount: Int, rec: Int) {
+    override suspend fun addWaterIntakeForUser(email: String, amount: Int, rec: Int, kcal: Int) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val currentDate = dateFormat.format(Date())
-        var waterIntake = WaterIntake(amount, currentDate, rec)
+        var waterIntake = WaterIntake(amount, currentDate, rec, kcal)
         database.collection("Users")
             .document(email)
             .collection("WaterIntake")
@@ -40,6 +40,7 @@ class DatabaseOperations(private val database: FirebaseFirestore): FireBaseInter
             .set(waterIntake)
             .await()
     }
+
     override suspend fun getWaterIntakeForUser(email: String): Int {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val currentDate = dateFormat.format(Date())
@@ -47,6 +48,25 @@ class DatabaseOperations(private val database: FirebaseFirestore): FireBaseInter
             .document(email).collection("WaterIntake")
             .document(currentDate).get().await()
         val amount = snapshot.get("amount").toString().toInt()
+        return amount
+    }
+
+    override suspend fun getReccomendedIntakeForUser(email: String): Int {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentDate = dateFormat.format(Date())
+        val snapshot = database.collection("Users")
+            .document(email).collection("WaterIntake")
+            .document(currentDate).get().await()
+        val amount = snapshot.get("rec").toString().toInt()
+        return amount
+    }
+    override suspend fun getKcalForUser(email: String): Int {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentDate = dateFormat.format(Date())
+        val snapshot = database.collection("Users")
+            .document(email).collection("WaterIntake")
+            .document(currentDate).get().await()
+        val amount = snapshot.get("kcal").toString().toInt()
         return amount
     }
 

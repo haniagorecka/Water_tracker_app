@@ -91,6 +91,7 @@ class MainActivity : BaseActivity() {
         SportScreen = findViewById(R.id.cardViewSport)
         KcalText = findViewById(R.id.Calorie)
         KcalDodaj = findViewById(R.id.kcalAdd)
+        SportIcon = findViewById(R.id.Sports)
 
 
 
@@ -148,28 +149,36 @@ class MainActivity : BaseActivity() {
          else -> userGender = genderChoice.MALE
         }
         val rec = Recomendation(userWeight, userHeight, userAge, userGender)
-        Recommended.text = rec.toString()
-        Progress.max = rec.toInt()
+        //Recommended.text = rec.toString()
+
         var totalWaterIntake:Int = 0
+        var recom: Int = rec
         lifecycleScope.launch {
             if (userID != null)
-            {
-                try {
-                    totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
-                } catch (e: Exception) {
-                    databaseOp.addWaterIntakeForUser(userID, 0, rec)
-                }
-                Consumption.text = totalWaterIntake.toString()
-                if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
-                {
-                    Progress.progress = totalWaterIntake.toInt()
-                }
-                else
-                {
-                    Progress.progress = Progress.max
-                }
+             {
+                 try {
+                     totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
+                     recom = databaseOp.getReccomendedIntakeForUser(userID).toInt()
+
+
+
+                 } catch (e: Exception) {
+                     databaseOp.addWaterIntakeForUser(userID, 0, rec, 0)
+                 }
+                 Recommended.text = recom.toString()
+                 Progress.max = recom
+                 Consumption.text = totalWaterIntake.toString()
+                 if(totalWaterIntake<=recom)
+                 {
+                     Progress.progress = totalWaterIntake.toInt()
+                 }
+                 else
+                 {
+                     Progress.progress = Progress.max
+                 }
             }
         }
+        Recommended.text = recom.toString()
         ObjectAnimator.ofInt(Progress, "progress", totalWaterIntake).setDuration(2000).start()
         totalWaterIntake += 0
         AddButton.setOnClickListener()
@@ -194,10 +203,12 @@ class MainActivity : BaseActivity() {
                     drinkAmount+=intake
                     databaseOp.addDrinkIntakeForUser(userID, DrinkIntake(drinkOption, drinkAmount))
                     var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
+                    val calories = databaseOp.getKcalForUser(userID).toInt()
+                    val recom = databaseOp.getReccomendedIntakeForUser(userID).toInt()
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
-                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake, rec)
-                    if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
+                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake, recom, calories)
+                    if(totalWaterIntake<=recom)
                     {
                         Progress.progress = totalWaterIntake.toInt()
                     }
@@ -238,6 +249,33 @@ class MainActivity : BaseActivity() {
             KcalDodaj.setOnClickListener()
             {
                 val kcal = KcalText.text.toString().toInt()
+                lifecycleScope.launch {
+                    if (userID != null) {
+                        var existingKcal: Int
+                        var recom: Int
+                        var amount: Int = 0
+                        try {
+                            recom = databaseOp.getReccomendedIntakeForUser(userID).toInt()
+                            existingKcal = databaseOp.getKcalForUser(userID).toInt()
+                            amount = databaseOp.getWaterIntakeForUser(userID).toInt()
+
+                        } catch (e: Exception) {
+                            databaseOp.addWaterIntakeForUser(userID, 0, rec, 0)
+                            recom = rec
+                            existingKcal = 0
+                        }
+                        existingKcal += kcal
+                        recom += kcal
+                        databaseOp.addWaterIntakeForUser(userID, amount, recom, existingKcal)
+                        Recommended.text = recom.toString()
+                        Progress.max = recom 
+
+                    }
+                }
+            }
+            Close2.setOnClickListener()
+            {
+                SportScreen.isVisible = false
             }
 
         }
@@ -268,10 +306,12 @@ class MainActivity : BaseActivity() {
                     drinkAmount+=150
                     databaseOp.addDrinkIntakeForUser(userID, DrinkIntake(drinkOption, drinkAmount))
                     var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
+                    val calories = databaseOp.getKcalForUser(userID).toInt()
+                    val recom = databaseOp.getReccomendedIntakeForUser(userID).toInt()
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
-                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake, rec)
-                    if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
+                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake, recom, calories)
+                    if(totalWaterIntake<=recom)
                     {
                         Progress.progress = totalWaterIntake.toInt()
                     }
@@ -302,8 +342,10 @@ class MainActivity : BaseActivity() {
                     var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
                     totalWaterIntake += waterIntake
                     Consumption.text = totalWaterIntake.toString()
-                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake, rec)
-                    if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
+                    val calories = databaseOp.getKcalForUser(userID).toInt()
+                    val recom = databaseOp.getReccomendedIntakeForUser(userID).toInt()
+                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake, recom, calories)
+                    if(totalWaterIntake<=recom)
                     {
                         Progress.progress = totalWaterIntake.toInt()
                     }
@@ -333,8 +375,10 @@ class MainActivity : BaseActivity() {
                     databaseOp.addDrinkIntakeForUser(userID, DrinkIntake(drinkOption, drinkAmount))
                     var totalWaterIntake = databaseOp.getWaterIntakeForUser(userID).toInt()
                     totalWaterIntake += waterIntake
+                    val calories = databaseOp.getKcalForUser(userID).toInt()
+                    val recom = databaseOp.getReccomendedIntakeForUser(userID).toInt()
                     Consumption.text = totalWaterIntake.toString()
-                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake, rec)
+                    databaseOp.addWaterIntakeForUser(userID, totalWaterIntake, recom, calories)
                     if(totalWaterIntake<=Recomendation(userWeight, userHeight, userAge, userGender))
                     {
                         Progress.progress = totalWaterIntake.toInt()

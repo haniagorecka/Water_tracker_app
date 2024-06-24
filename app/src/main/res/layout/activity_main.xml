@@ -293,7 +293,7 @@
         android:background="#8e7cc3"
         android:backgroundTint="#8e7cc3"
         android:padding="10dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:cardCornerRadius="5dp"
         app:cardElevation="15dp"
         app:contentPadding="10dp"
